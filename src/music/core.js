@@ -56,7 +56,7 @@ async function execute(message, serverQueue, directURL /** optional **/) {
       }
     } else {
       serverQueue.songs.push(song);
-      return message.channel.send(`**${song.title}** has been added to the queue!`);
+      return message.channel.send(`[Queue] ++ [**${song.title}**]`);
     }
   });
 }
@@ -97,7 +97,7 @@ function play(guild, song) {
     .setTitle(song.title)
     .setURL(song.url)
     .setAuthor('🎧 Now playing')
-    .setDescription(`by **${song.author}** - duration **${time_format(song.duration)}**`);
+    .setDescription(`[ **${song.author}** ] - [ **${time_format(song.duration)}** ]`);
 
   serverQueue.textChannel.send(embed).then(recent => {
     const dispatcher = serverQueue.connection
@@ -112,8 +112,7 @@ function play(guild, song) {
         play(guild, serverQueue.songs[0]);
       })
       .on("error", error => console.error(error));
-
-    dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+    dispatcher.setVolumeLogarithmic(serverQueue.volume / 2);
   });
 }
 

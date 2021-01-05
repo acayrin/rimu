@@ -15,7 +15,6 @@ exports.queue = queue;
 client.login('Nzk1NjE4MTgxNTM2MDIyNTMw.X_L_LA.Dsy0CA9Qg0LHitJWKL99CVWwXq0');
 client.once('ready', () => {
 	console.log("> Enabled acay's toy v" + ver);
-
 	client.user.setPresence({
     status: 'online',
     activity: {
