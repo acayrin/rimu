@@ -1,6 +1,6 @@
 {
   "name": "acays-bot",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A bot that shares emotes to all",
   "main": "main.js",
   "engines": {
