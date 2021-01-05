@@ -23,6 +23,6 @@ client.once('ready', () => {
 });
 
 client.on('message', message => {
-	cmd_proc(message);
 	ge_proc(client, message);
+	cmd_proc(message);
 });
