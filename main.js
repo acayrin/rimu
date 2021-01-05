@@ -8,6 +8,10 @@ const ver = "1.0.3";
 const Discord = require('discord.js');
 const YTDL = require('ytdl-core');
 const client = new Discord.Client();
+// global var
+const queue = new Map();
+exports.queue = queue;
+// end of global var
 
 client.login('Nzk1NjE4MTgxNTM2MDIyNTMw.X_L_LA.Dsy0CA9Qg0LHitJWKL99CVWwXq0');
 client.once('ready', () => {
@@ -22,7 +26,7 @@ client.once('ready', () => {
 	})
 });
 
-client.on('message', message => {
+client.on('message', async message => {
 	ge_proc(client, message);
-	cmd_proc(message);
+	await cmd_proc(message);
 });
