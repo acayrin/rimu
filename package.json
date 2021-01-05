@@ -10,7 +10,8 @@
   "dependencies": {
     "discord.js": "^12.5.1",
     "node-opus": "^0.3.3",
-    "ytdl-core": "^4.4.0"
+    "ytdl-core": "^4.4.0",
+    "ffmpeg-static": "^4.2.7"
   },
   "devDependencies": {},
   "scripts": {
