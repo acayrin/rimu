@@ -30,6 +30,9 @@ async function lookup_YT(message) {
           MC.execute(message, Main.queue.get(message.guild.id), temp.get(`'${collected.first().content}'`));
           recent.delete();
           collected.first().delete();
+        } else {
+          recent.delete();
+          channel.send("Invalid input.");
         }
     }).catch(() => {
       recent.delete();
