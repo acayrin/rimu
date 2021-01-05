@@ -1,6 +1,6 @@
 {
   "name": "acays-bot",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A bot that shares emotes to all",
   "main": "main.js",
   "engines": {
@@ -8,10 +8,10 @@
     "npm": "6.x"
   },
   "dependencies": {
+    "ffmpeg-static": "^4.2.7",
     "discord.js": "^12.5.1",
     "node-opus": "^0.3.3",
-    "ytdl-core": "^4.4.0",
-    "ffmpeg-static": "^4.2.7"
+    "ytdl-core": "^4.4.0"
   },
   "devDependencies": {},
   "scripts": {
