@@ -4,7 +4,7 @@
 require('./src/global_emotes')();
 require('./src/command_handler')();
 
-const ver = "1.0.1";
+const ver = "1.0.3";
 const Discord = require('discord.js');
 const YTDL = require('ytdl-core');
 const client = new Discord.Client();
