@@ -25,7 +25,7 @@ async function execute(message, serverQueue, directURL /** optional **/) {
         duration: ''
   };
 
-  const songInfo = await ytdl(url, {filter: 'audioonly', quality: 'highestaudio'}).on('info', async (info) => {
+  await ytdl(url, {filter: 'audioonly', quality: 'highestaudio'}).on('info', async (info) => {
     song.title = info.videoDetails.title;
     song.author = info.videoDetails.author.name;
     song.url = info.videoDetails.video_url;

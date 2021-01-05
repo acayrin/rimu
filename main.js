@@ -6,7 +6,6 @@ require('./src/command_handler')();
 
 const ver = "1.0.3";
 const Discord = require('discord.js');
-const YTDL = require('ytdl-core');
 const client = new Discord.Client();
 // global var
 const queue = new Map();
