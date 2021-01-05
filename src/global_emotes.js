@@ -13,8 +13,11 @@ module.exports = function() {
 
         // check if from same servers
         if (client.emojis.cache?.find(emoji => emoji.name === match.replace(/:/g,"")) != null)
-        if ((emoji.guild.id == message.channel.guild.id && emoji.animated)	|| emoji.guild.id !== message.channel.guild.id) {
+        if (emoji.animated) {
           fix = fix.replace(new RegExp(match, 'g'), `<${emoji.identifier}>`);
+          diff = true;
+        } else if (emoji.guild.id !== message.channel.guild.id) {
+          fix = fix.replace(new RegExp(match, 'g'), `<:${emoji.identifier}>`);
           diff = true;
         }
       }
