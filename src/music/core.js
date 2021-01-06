@@ -28,7 +28,7 @@ async function execute(message, serverQueue, directURL /** for lookup lib **/) {
         thumbnail: ''
   };
 
-  await ytdl(url, {filter: 'audioonly', quality: 'highestaudio'}).on('info', async (info) => {
+  await ytdl(url).on('info', async (info) => {
     song.title = info.videoDetails.title;
     song.author = info.videoDetails.author.name;
     song.url = info.videoDetails.video_url;
@@ -50,7 +50,7 @@ async function execute(message, serverQueue, directURL /** for lookup lib **/) {
       queueContruct.songs.push(song);
 
       try {
-        var connection = await voiceChannel.join();
+        var connection = voiceChannel.join();
         queueContruct.connection = connection;
         play(message.guild, queueContruct.songs[0]);
         // load message
@@ -216,15 +216,16 @@ function play(guild, song) {
 
   serverQueue.textChannel.send(embed).then(recent => {
     const dispatcher = serverQueue.connection
-      .play(ytdl(song.url, {filter: 'audioonly', quality: 'highestaudio'}))
+      .play(ytdl(song.url, {filter: 'audioonly', /**quality: 'highestaudio'**/}))
       .on("finish", () => {
 
         embed.setAuthor('🎧 Completed');
         recent.delete();
         serverQueue.textChannel.send(embed);
-
         serverQueue.songs.shift();
-        play(guild, serverQueue.songs[0]);
+        setTimeout(function(){
+          play(guild, serverQueue.songs[0]);
+        }, 1000)
       })
       .on("error", error => console.error(error));
     dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
