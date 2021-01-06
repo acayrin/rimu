@@ -1,5 +1,5 @@
 const Main = require('../main');
-const MC = require('./music/core');
+const MC = require('./music/main');
 const lkYT = require('./music/lookupYT');
 const Discord = require('discord.js');
 
@@ -9,26 +9,24 @@ module.exports = function() {
     if (message.content.startsWith("a>help") || message.content.startsWith("a>h")) {
       const embed = new Discord.MessageEmbed()
         .setColor('#e3b900')
-        .setTitle('**Help**')
-        .setDescription("This is acay's bot help page")
+        .setTitle('**Command List**')
         .setFooter('by acay#9388')
-        .addField("1. a>play [string]", "Play a song by given string or link", true)
-        .addField("2. a>q", "Pause/Resume the player", true)
-        .addField("3. a>skip", "Skip current song", true)
+        .addField("🎧 Play", "`Usage:` **a>play [string]**\n`Play a song or add a new song to queue`", true)
+        .addField("⏯️ Pause/Resume", "`Usage:` **a>q**\n`Pause/Resume the player`", true)
+        .addField("⏩ Skip", "`Usage:` **a>skip**\n`Skip current song`", true)
+        .addField("⏹️ Stop", "`Usage:` **a>stop**\n`Stop the player and clear the queue`", true)
+        .addField("🔄 Shuffle", "`Usage:` **a>shuffle** `|` **a>sf**\n`Shuffle the queue`", true)
+        .addField("❓ Help", "`Usage:` **a>help** `|` **a>h**\n`Show the command list\nalias: a>h`", true)
         .addField("\u200C", "\u200C", false)
-        .addField("4. a>search [options] [string]", "> Search a song by given string" +
-          "\n\n> **--sort-r**\n> Sort by rating" +
-          "\n\n> **--sort-vc**\n> Sort by view count" +
-          "\n\n> **--c-[number]**\n> Change amount of results\n> Accept range **1-25**\n> eg: `--c-10`" +
-          "\n> Maximum **25** items only", true)
-        .addField("5. a>config [options]", "> Change player options" +
-          "\n\n> **volume=[number]**\n> Change player volume\n> Accept ramge **0.0-1.0**\n> eg: `volume=0.8`" +
-          "\n\n> **repeat=[number]**\n> Whether player repeat or not\n> Accept **0** or **1** or **2**\n> eg: `repeat=1`" +
-          "\n> **0** = disable repeat\n> **1** = repeat current\n> **2** = repeat playlist", true)
-        .addField("\u200C", "\u200C", false)
-        .addField("6. a>stop", "Stop the stream and exit channel", true)
-        .addField("7. a>shuffle (a>sf)", "Shuffle playlist", true)
-        .addField("8. a>help (a>h)", "Show the help page", true)
+        .addField("🔍 Search", "`Usage:` **a>search [string] [options]**\n`Search a song by given string, and options for search results`" +
+          "\n**--sort-r**\n`Sort by rating`" +
+          "\n**--sort-vc**\n`Sort by view count`" +
+          "\n**--c-[number]**\n`Change amount of results\nAccept range` **1-25**\n`eg: a>search hello --c-10`" +
+          "\n`Maximum` **25** `items only`", true)
+        .addField("⚙️ Config", "`Usage:` **a>config [options]**\n`Change player options`" +
+          "\n**volume=[number]**\n`Change player volume`\n`Accept range` **0.0-1.0**\n`eg: a>config volume=0.8`" +
+          "\n**repeat=[number]**\n`Whether player repeat or not`\n`Accept` **0** `or` **1** `or` **2**" +
+          "\n**0** `disable repeat`\n**1** `repeat current`\n**2** `repeat playlist`\n`eg: a>config repeat=1`", true)
       return message.channel.send(embed);
     }
     if (message.content.startsWith("a>play")) {
