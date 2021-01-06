@@ -146,7 +146,7 @@ function stop(message, serverQueue) {
 /******************************
   PLAY FUNCTION
 ******************************/
-function play(guild, song) {
+async function play(guild, song) {
   const serverQueue = Main.queue.get(guild.id);
   if (!song)
     return serverQueue.songs.shift();
@@ -161,9 +161,15 @@ function play(guild, song) {
 
   // CONSOLE CHECK
   console.log(`[INFO:${formatter.format(new Date())}] G:${guild.id} - U:${song.url}`);
-
+  let info = await ytdl.getInfo(song.url, {filter: 'audioonly', highWaterMark: 1 << 20});
+  const stream = () => {
+    //if (info.livestream) {
+      const format = ytdl.chooseFormat(info.formats, {quality: [140,128,127,120,96,95,94,93]});
+      return format.url;
+    //} else return ytdl.downloadFromInfo(info);
+  }
   const dispatcher = serverQueue.connection
-    .play(ytdl(song.url, {filter: 'audioonly', highWaterMark: 1<<15}))
+    .play(stream())
     .on("finish", () => {
 
       // ======= mics =======
