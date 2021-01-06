@@ -41,6 +41,7 @@ async function execute(message, serverQueue, directURL /** for lookup lib **/) {
         connection: null,
         songs: [],
         volume: 5,
+        repeat: 0,
         playing: true
       };
 
@@ -48,28 +49,44 @@ async function execute(message, serverQueue, directURL /** for lookup lib **/) {
 
       queueContruct.songs.push(song);
 
+      // load message
+      load_msg.then(function(msg) {
+        msg.delete();
+      });
+
       try {
         var connection = await voiceChannel.join();
         queueContruct.connection = connection;
         play(message.guild, queueContruct.songs[0]);
-        // load message
-        load_msg.then(function(msg) {
-          msg.delete();
-        });
       } catch (err) {
         console.log(err);
         Main.queue.delete(message.guild.id);
         return message.channel.send(err);
       }
     } else {
-      serverQueue.songs.push(song);
-      // load message
-      load_msg.then(function(msg) {
-        msg.delete();
-      });
-      return message.channel.send(`[ Queue ] ++ [ **${song.author}** ] - [ **${song.title}** ]`);
+      if(serverQueue.songs.length == 0) {
+        serverQueue.songs.push(song);
+        // load message
+        load_msg.then(function(msg) {
+          msg.delete();
+        });
+        try {
+          play(message.guild, song)
+        } catch (err) {
+          console.log(err);
+          Main.queue.delete(message.guild.id);
+          return message.channel.send(err);
+        }
+      } else {
+        serverQueue.songs.push(song);
+        // load message
+        load_msg.then(function(msg) {
+          msg.delete();
+        });
+        return message.channel.send(`[ Queue ] ++ [ **${song.author}** ] - [ **${song.title}** ]`);
+      }
     }
-  });
+  })
 }
 
 function stream(message, serverQueue) {
@@ -87,10 +104,6 @@ function stream(message, serverQueue) {
 }
 
 function skip(message, serverQueue) {
-  if (!message.member.voice.channel)
-    return message.channel.send(
-      "[**!**] You have to be in a voice channel to skip the music!"
-    );
   if (!serverQueue)
     return message.channel.send("[**!**] There is no song that I could skip!");
   serverQueue.connection.dispatcher.end();
@@ -100,15 +113,10 @@ function skip(message, serverQueue) {
 }
 
 function stop(message, serverQueue) {
-  if (!message.member.voice.channel)
-    return message.channel.send(
-      "[**!**] You have to be in a voice channel to stop the music!"
-    );
-
   if (!serverQueue)
     return message.channel.send("[**!**] There is no song that I could stop!");
 
-  serverQueue.songs = [];
+  serverQueue.songs.shift();
   serverQueue.connection.dispatcher.end();
   message.channel.send(
     "[**!**] Stopped the music player."
@@ -120,9 +128,6 @@ function control(message, serverQueue) {
     return message.channel.send(
       "[**!**] You have to be in a voice channel to use this!"
     );
-
-  if (!serverQueue)
-    return message.channel.send("[**!**] There is no song to control!");
 
   if(serverQueue.playing) {
     serverQueue.connection.dispatcher.pause();
@@ -139,11 +144,62 @@ function control(message, serverQueue) {
   }
 }
 
+function config(message, serverQueue) {
+  const config  = message.content.replace("a>config", "");
+  for(const each of (config.replace(/\s+/g,' ').trim()).split(' ')) {
+    try {
+      const cfg_val = each.split('=');
+      const c_key = cfg_val[0];
+      const c_val = cfg_val[1];
+      if(!c_key || !c_val) return message.channel.send("[**!**] Missing arguments.");
+      switch (c_key) {
+        case "volume":
+          if(c_val >= 0 && c_val <= 100) {
+            serverQueue.volume = c_val;
+            message.channel.send(`[**!**] Config updated.`);
+          } else
+            message.channel.send(`[**!**] Invalid Volume option **${c_val}**`);
+          break;
+        case "repeat":
+          if(c_val == 0) {
+            serverQueue.repeat == 0;
+            message.channel.send(`[**!**] Config updated.`);
+          } else if(c_val == 1) {
+            serverQueue.repeat == 1;
+            message.channel.send(`[**!**] Config updated.`);
+          } else if(c_val == 2) {
+            serverQueue.repeat == 2;
+            message.channel.send(`[**!**] Config updated.`);
+          } else
+            message.channel.send(`[**!**] Invalid Repeat option **${c_val}**`);
+          break;
+        default:
+          message.channel.send(`[**!**] Invalid config **${c_key}**`);
+      }
+    } catch (err) {
+      return message.channel.send("[**!**] Syntax error.\n**" + err + "**");
+    }
+    //message.channel.send(serverQueue);
+  }
+}
+
+function shuffle(message, serverQueue) {
+  if (!serverQueue)
+    return message.channel.send("[**!**] There are no songs to shuffle!");
+  const a_b = serverQueue.songs;
+  const first = a_b.shift();
+  const s_f = shuffleArray(a_b);
+  s_f.unshift(first);
+  serverQueue.songs = s_f;
+  return message.channel.send("[**!**] Shuffled!");
+}
+
 function play(guild, song) {
   const serverQueue = Main.queue.get(guild.id);
   if (!song) {
-    serverQueue.voiceChannel.leave();
-    Main.queue.delete(guild.id);
+    //serverQueue.voiceChannel.leave();
+    //Main.queue.delete(guild.id);
+    serverQueue.songs.shift();
     return;
   }
 
@@ -172,4 +228,4 @@ function play(guild, song) {
   });
 }
 
-module.exports = { execute, skip, stop, stream, control };
+module.exports = { execute, skip, stop, stream, control, config, shuffle };
