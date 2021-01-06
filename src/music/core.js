@@ -51,9 +51,6 @@ async function execute(message, serverQueue, directURL /** optional **/) {
         var connection = await voiceChannel.join();
         queueContruct.connection = connection;
         play(message.guild, queueContruct.songs[0]);
-        load_msg.then(function(msg) {
-          msg.delete();
-        });
       } catch (err) {
         console.log(err);
         Main.queue.delete(message.guild.id);
@@ -63,6 +60,9 @@ async function execute(message, serverQueue, directURL /** optional **/) {
       serverQueue.songs.push(song);
       return message.channel.send(`[Queue] ++ [**${song.title}**]`);
     }
+    load_msg.then(function(msg) {
+      msg.delete();
+    });
   });
 }
 
