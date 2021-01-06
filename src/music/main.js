@@ -163,10 +163,10 @@ async function play(guild, song) {
   console.log(`[INFO:${formatter.format(new Date())}] G:${guild.id} - U:${song.url}`);
   let info = await ytdl.getInfo(song.url, {filter: 'audioonly', highWaterMark: 1 << 20});
   const stream = () => {
-    //if (info.livestream) {
+    if (info.livestream) {
       const format = ytdl.chooseFormat(info.formats, {quality: [140,128,127,120,96,95,94,93]});
       return format.url;
-    //} else return ytdl.downloadFromInfo(info);
+    } else return ytdl.downloadFromInfo(info);
   }
   const dispatcher = serverQueue.connection
     .play(stream())
