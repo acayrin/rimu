@@ -147,7 +147,7 @@ function control(message, serverQueue) {
   }
 }
 
-async function config(message, serverQueue) {
+function config(message, serverQueue) {
   const config  = message.content.replace("a>config", "");
   for(const each of (config.replace(/\s+/g,' ').trim()).split(' ')) {
     try {

@@ -4,7 +4,7 @@ const lkYT = require('./music/lookupYT');
 const Discord = require('discord.js');
 
 module.exports = function() {
-  this.cmd_proc = function(message) {
+  this.cmd_proc = async function(message) {
     const serverQueue = Main.queue.get(message.guild.id);
     if (message.content.startsWith("a>help") || message.content.startsWith("a>h")) {
       const embed = new Discord.MessageEmbed()
