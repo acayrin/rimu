@@ -28,7 +28,7 @@ async function execute(message, serverQueue, directURL /** for lookup lib **/) {
         thumbnail: ''
   };
 
-  await ytdl(url, {filter: 'audioonly', quality: 'highestaudio'}).on('info', (info) => {
+  await ytdl(url, {filter: 'audioonly', quality: 'highestaudio'}).on('info', async (info) => {
     song.title = info.videoDetails.title;
     song.author = info.videoDetails.author.name;
     song.url = info.videoDetails.video_url;
