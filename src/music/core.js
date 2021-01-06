@@ -9,14 +9,16 @@ async function execute(message, serverQueue, directURL /** optional **/) {
   const voiceChannel = message.member.voice.channel;
   if (!voiceChannel)
     return message.channel.send(
-      "You need to be in a voice channel to play music!"
+      "[**!**] Please join a voice channel first."
     );
   const permissions = voiceChannel.permissionsFor(message.client.user);
   if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) {
     return message.channel.send(
-      "I need the permissions to join and speak in your voice channel!"
+      "[**!**] Insufficient permissions. Need Voice.Connect and Voice.Speak."
     );
   }
+
+  const load_msg = message.channel.send(`[**?**] Loading...`);
 
   const song = {
         title: '',
@@ -49,6 +51,9 @@ async function execute(message, serverQueue, directURL /** optional **/) {
         var connection = await voiceChannel.join();
         queueContruct.connection = connection;
         play(message.guild, queueContruct.songs[0]);
+        load_msg.then(function(msg) {
+          msg.delete();
+        });
       } catch (err) {
         console.log(err);
         Main.queue.delete(message.guild.id);
@@ -112,7 +117,7 @@ function play(guild, song) {
         play(guild, serverQueue.songs[0]);
       })
       .on("error", error => console.error(error));
-    dispatcher.setVolumeLogarithmic(serverQueue.volume / 2);
+    dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
   });
 }
 

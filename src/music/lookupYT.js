@@ -6,6 +6,7 @@ const ytsr = require('ytsr');
 
 async function lookup_YT(message) {
   const channel = message.channel;
+  const load_msg = channel.send("[**?**] Loading...");
   const search = await ytsr.getFilters(message.content.replace("a>search", ""))
                         .catch(err => { console.log(err) });
   const f1 = search.get('Type').get('Video');
@@ -21,11 +22,14 @@ async function lookup_YT(message) {
   for(let i = 0; i < results['items'].length; i++) {
     const vid = results['items'][i];
     temp.set(`'${i+1}'`, vid.url);
-    embed.addField(`${i+1}. ${vid.title}`, `[ **${vid.author.name}** ] - [ **${vid.duration}** ] - [[Source](${vid.url})]`);
+    embed.addField(`${i+1}. ${vid.title}`, `[ **${vid.author.name}** ] - [ **${vid.duration}** ] - < [Source](${vid.url}) >`);
   }
+
+  load_msg.then(function(msg) {
+    msg.delete();
+  })
   channel.send(embed).then(recent => {
-    recent.channel.awaitMessages(m => m.author.id == message.author.id,
-      { max: 1, time: 60000 }).then(collected => {
+    recent.channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 30000 }).then(collected => {
         if((/^-?\d+$/).test(collected.first().content) && collected.first().content > 0 && collected.first().content < results['items'].length+1) {
           MC.execute(message, Main.queue.get(message.guild.id), temp.get(`'${collected.first().content}'`));
           recent.delete();
