@@ -24,12 +24,27 @@ module.exports = function() {
 
       // webhook
       if (diff) {
-        let webhook = await message.channel.createWebhook(message.member.displayName, {avatar: message.author.avatarURL()});
-        await webhook.edit({channel: message.channel.id});
-        await webhook.send(fix);
-        await message.delete();
-        await webhook.delete().catch(console.error);
+        send(message, fix);
       }
     }
+  }
+}
+
+async function send(message, msg) {
+  try {
+    const webhooks = await message.channel.fetchWebhooks();
+    let webhook = webhooks.first();
+    if(!webhook)
+      webhook = await message.channel.createWebhook("Hod-webhook", {avatar: message.client.user.avatarURL(), reason: 'Create Hod-webhook'});
+
+    message.delete();
+    await webhook.send(msg, {
+      username: message.member.displayName,
+      avatarURL: message.author.avatarURL(),
+      channel: message.channel.id
+    });
+  } catch (error) {
+    console.error('Error trying to send: ', error);
+    send(message, msg);
   }
 }

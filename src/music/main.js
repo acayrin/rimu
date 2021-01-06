@@ -163,7 +163,7 @@ function play(guild, song) {
   console.log(`[INFO:${formatter.format(new Date())}] G:${guild.id} - U:${song.url}`);
 
   const dispatcher = serverQueue.connection
-    .play(ytdl(song.url, {filter: 'audioonly', quality: 'highestaudio'}))
+    .play(ytdl(song.url, {filter: 'audioonly', highWaterMark: 1<<25}))
     .on("finish", () => {
 
       // ======= mics =======

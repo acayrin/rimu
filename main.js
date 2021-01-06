@@ -1,10 +1,10 @@
 // acay's shit bot
 // @acayrin
-// ver: 1.0.5
+// ver: 1.0.6
 require('./src/global_emotes')();
 require('./src/command_handler')();
 
-const ver = "1.0.5";
+const ver = "1.0.6";
 const Discord = require('discord.js');
 const client = new Discord.Client();
 // global var
@@ -14,7 +14,7 @@ exports.queue = queue;
 
 client.login('Nzk1NjE4MTgxNTM2MDIyNTMw.X_L_LA.Dsy0CA9Qg0LHitJWKL99CVWwXq0');
 client.once('ready', () => {
-	console.log("> Enabled acay's toy v" + ver);
+	console.log("[!] Enabled Hod v" + ver);
 	client.user.setPresence({
     status: 'online',
     activity: {
@@ -24,7 +24,7 @@ client.once('ready', () => {
 	})
 });
 
-client.on('message', async message => {
+client.on('message', message => {
 	ge_proc(client, message);
-	await cmd_proc(message);
+	cmd_proc(message);
 });
