@@ -154,7 +154,7 @@ function config(message, serverQueue) {
       if(!c_key || !c_val) return message.channel.send("[**!**] Missing arguments.");
       switch (c_key) {
         case "volume":
-          if(c_val >= 0 && c_val <= 100) {
+          if(c_val >= 0 && c_val <= 1) {
             serverQueue.volume = c_val;
             message.channel.send(`[**!**] Config updated.`);
           } else
