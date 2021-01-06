@@ -57,7 +57,7 @@ async function execute(message, serverQueue, directURL /** for lookup lib **/) {
       try {
         var connection = await voiceChannel.join();
         queueContruct.connection = connection;
-        play(message.guild, queueContruct.songs[0]);
+        await play(message.guild, queueContruct.songs[0]);
       } catch (err) {
         console.log(err);
         Main.queue.delete(message.guild.id);
@@ -71,7 +71,7 @@ async function execute(message, serverQueue, directURL /** for lookup lib **/) {
           msg.delete();
         });
         try {
-          play(message.guild, song)
+          await play(message.guild, song)
         } catch (err) {
           console.log(err);
           Main.queue.delete(message.guild.id);
