@@ -3,7 +3,7 @@ const Main = require('../../main.js');
 const Discord = require("discord.js");
 const ytdl = require("ytdl-core");
 
-async function execute(message, serverQueue, directURL /** optional **/) {
+async function execute(message, serverQueue, directURL /** for lookup lib **/) {
   const url = (directURL) ? directURL : message.content.replace("a>play", "");
 
   const voiceChannel = message.member.voice.channel;
@@ -18,13 +18,14 @@ async function execute(message, serverQueue, directURL /** optional **/) {
     );
   }
 
-  const load_msg = message.channel.send(`[**?**] Loading...`);
+  const load_msg = message.channel.send(`[**?**] Preparing...`);
 
   const song = {
         title: '',
         author: '',
         url: '',
-        duration: ''
+        duration: '',
+        thumbnail: ''
   };
 
   await ytdl(url, {filter: 'audioonly', quality: 'highestaudio'}).on('info', async (info) => {
@@ -32,7 +33,7 @@ async function execute(message, serverQueue, directURL /** optional **/) {
     song.author = info.videoDetails.author.name;
     song.url = info.videoDetails.video_url;
     song.duration = info.videoDetails.lengthSeconds;
-
+    song.thumbnail = info.videoDetails.thumbnails[3].url;
     if (!serverQueue) {
       const queueContruct = {
         textChannel: message.channel,
@@ -51,6 +52,10 @@ async function execute(message, serverQueue, directURL /** optional **/) {
         var connection = await voiceChannel.join();
         queueContruct.connection = connection;
         play(message.guild, queueContruct.songs[0]);
+        // load message
+        load_msg.then(function(msg) {
+          msg.delete();
+        });
       } catch (err) {
         console.log(err);
         Main.queue.delete(message.guild.id);
@@ -58,35 +63,80 @@ async function execute(message, serverQueue, directURL /** optional **/) {
       }
     } else {
       serverQueue.songs.push(song);
-      return message.channel.send(`[Queue] ++ [**${song.title}**]`);
+      // load message
+      load_msg.then(function(msg) {
+        msg.delete();
+      });
+      return message.channel.send(`[ Queue ] ++ [ **${song.author}** ] - [ **${song.title}** ]`);
     }
-    load_msg.then(function(msg) {
-      msg.delete();
-    });
   });
+}
+
+function stream(message, serverQueue) {
+  if(!isValidURL(message.content.replace("a>play", ""))) {
+    const lkYT = require('./lookupYT');
+    lkYT.lookup_YT(message, true).then((out) => {
+      if(out)
+        execute(message, serverQueue, out);
+      else
+        return message.channel.send("[**?**] No results found.");
+    });
+  } else {
+    execute(message, serverQueue, null);
+  }
 }
 
 function skip(message, serverQueue) {
   if (!message.member.voice.channel)
     return message.channel.send(
-      "You have to be in a voice channel to stop the music!"
+      "[**!**] You have to be in a voice channel to skip the music!"
     );
   if (!serverQueue)
-    return message.channel.send("There is no song that I could skip!");
+    return message.channel.send("[**!**] There is no song that I could skip!");
   serverQueue.connection.dispatcher.end();
+  message.channel.send(
+    "[**!**] Skipped current song."
+  );
 }
 
 function stop(message, serverQueue) {
   if (!message.member.voice.channel)
     return message.channel.send(
-      "You have to be in a voice channel to stop the music!"
+      "[**!**] You have to be in a voice channel to stop the music!"
     );
 
   if (!serverQueue)
-    return message.channel.send("There is no song that I could stop!");
+    return message.channel.send("[**!**] There is no song that I could stop!");
 
   serverQueue.songs = [];
   serverQueue.connection.dispatcher.end();
+  message.channel.send(
+    "[**!**] Stopped the music player."
+  );
+}
+
+function control(message, serverQueue) {
+  if (!message.member.voice.channel)
+    return message.channel.send(
+      "[**!**] You have to be in a voice channel to use this!"
+    );
+
+  if (!serverQueue)
+    return message.channel.send("[**!**] There is no song to control!");
+
+  if(serverQueue.playing) {
+    serverQueue.connection.dispatcher.pause();
+    serverQueue.playing = false;
+    message.channel.send(
+      "[**!**] Paused the music player."
+    );
+  } else {
+    serverQueue.connection.dispatcher.resume();
+    serverQueue.playing = true;
+    message.channel.send(
+      "[**!**] Resumed the music player."
+    );
+  }
 }
 
 function play(guild, song) {
@@ -102,6 +152,7 @@ function play(guild, song) {
     .setTitle(song.title)
     .setURL(song.url)
     .setAuthor('🎧 Now playing')
+    .setThumbnail(song.thumbnail)
     .setDescription(`[ **${song.author}** ] - [ **${time_format(song.duration)}** ]`);
 
   serverQueue.textChannel.send(embed).then(recent => {
@@ -121,4 +172,4 @@ function play(guild, song) {
   });
 }
 
-module.exports = { execute, skip, stop };
+module.exports = { execute, skip, stop, stream, control };
