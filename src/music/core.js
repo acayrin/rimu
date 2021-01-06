@@ -28,7 +28,7 @@ async function execute(message, serverQueue, directURL /** for lookup lib **/) {
         thumbnail: ''
   };
 
-  await ytdl(url, {filter: 'audioonly', quality: 'highestaudio'}).on('info', async (info) => {
+  await ytdl(url, {filter: 'audioonly', quality: 'highestaudio'}).on('info', (info) => {
     song.title = info.videoDetails.title;
     song.author = info.videoDetails.author.name;
     song.url = info.videoDetails.video_url;
@@ -50,7 +50,7 @@ async function execute(message, serverQueue, directURL /** for lookup lib **/) {
       queueContruct.songs.push(song);
 
       try {
-        var connection = await voiceChannel.join();
+        var connection = voiceChannel.join();
         queueContruct.connection = connection;
         play(message.guild, queueContruct.songs[0]);
         // load message
