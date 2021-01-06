@@ -49,15 +49,14 @@ async function execute(message, serverQueue, directURL /** for lookup lib **/) {
 
       queueContruct.songs.push(song);
 
-      // load message
-      load_msg.then(function(msg) {
-        msg.delete();
-      });
-
       try {
         var connection = await voiceChannel.join();
         queueContruct.connection = connection;
-        await play(message.guild, queueContruct.songs[0]);
+        play(message.guild, queueContruct.songs[0]);
+        // load message
+        load_msg.then(function(msg) {
+          msg.delete();
+        });
       } catch (err) {
         console.log(err);
         Main.queue.delete(message.guild.id);
@@ -71,7 +70,11 @@ async function execute(message, serverQueue, directURL /** for lookup lib **/) {
           msg.delete();
         });
         try {
-          await play(message.guild, song)
+          play(message.guild, song);
+          // load message
+          load_msg.then(function(msg) {
+            msg.delete();
+          });
         } catch (err) {
           console.log(err);
           Main.queue.delete(message.guild.id);
@@ -144,7 +147,7 @@ function control(message, serverQueue) {
   }
 }
 
-function config(message, serverQueue) {
+async function config(message, serverQueue) {
   const config  = message.content.replace("a>config", "");
   for(const each of (config.replace(/\s+/g,' ').trim()).split(' ')) {
     try {
