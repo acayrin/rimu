@@ -50,7 +50,7 @@ async function execute(message, serverQueue, directURL /** for lookup lib **/) {
       queueContruct.songs.push(song);
 
       try {
-        var connection = voiceChannel.join();
+        var connection = await voiceChannel.join();
         queueContruct.connection = connection;
         play(message.guild, queueContruct.songs[0]);
         // load message
