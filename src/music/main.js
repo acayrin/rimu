@@ -113,8 +113,8 @@ async function execute(message, serverQueue, directURL) {
     // ======= load message =======//
       return message.channel.send(`[ Queue ] ++ [ **${song.author}** ] - [ **${song.title}** ]`);
     }
-  }
 }
+
 
 /******************************
   SKIP FUNCTION
