@@ -121,7 +121,7 @@ async function execute(message, serverQueue, directURL) {
   SKIP FUNCTION
 ******************************/
 function skip(message, serverQueue) {
-  if (!serverQueue.songs || !serverQueue.connection.dispatcher)
+  if (!serverQueue || !serverQueue.songs || !serverQueue.connection.dispatcher)
     return message.channel.send("[**!**] Queue is empty!");
   serverQueue.connection.dispatcher.end();
   message.channel.send(
@@ -133,7 +133,7 @@ function skip(message, serverQueue) {
   STOP FUNCTION
 ******************************/
 function stop(message, serverQueue) {
-  if (!serverQueue.songs || !serverQueue.connection.dispatcher)
+  if (!serverQueue || !serverQueue.songs || !serverQueue.connection.dispatcher)
     return message.channel.send("[**!**] Queue is empty!");
 
   serverQueue.songs = [];
@@ -193,7 +193,7 @@ function control(message, serverQueue) {
     return message.channel.send(
       "[**!**] You have to be in a voice channel to use this!"
     );
-    if (!serverQueue.songs || !serverQueue.connection.dispatcher)
+    if (!serverQueue || !serverQueue.songs || !serverQueue.connection.dispatcher)
       return message.channel.send("[**!**] Queue is empty!");
 
   if(serverQueue.playing) {
@@ -257,7 +257,7 @@ function config(message, serverQueue) {
   SHUFFLE FUNCTION
 ******************************/
 function shuffle(message, serverQueue) {
-  if (!serverQueue.songs)
+  if (!serverQueue || !serverQueue.songs)
     return message.channel.send("[**!**] Queue is empty!");
   const a_b = serverQueue.songs;
   const first = a_b.shift();
