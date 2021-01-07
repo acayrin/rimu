@@ -147,7 +147,7 @@ function stop(message, serverQueue) {
   PLAY FUNCTION
 ******************************/
 async function play(message, song) {
-  const serverQueue = Main.queue.get(message.channel.guild.id);
+  const serverQueue = Main.queue.get(message.guild.id);
   if (!song)
     return serverQueue.songs.shift();
   const embed = new Discord.MessageEmbed()
@@ -156,11 +156,11 @@ async function play(message, song) {
     .setURL(song.url)
     .setAuthor('🎧 Now playing')
     .setThumbnail(song.thumbnail)
-    .setDescription(`[ **${song.author}** ] - [ **${time_format(song.duration)}** ]`);
+    .setDescription(`[ **${song.author}** ] - [ **${(song.livestream) ? 'Livestream' : time_format(song.duration)}** ]`);
   let em = message.channel.send(embed).then(recent => {em = recent});
 
   // CONSOLE CHECK
-  console.log(`[INFO:${formatter.format(new Date())}] G:${message.channel.guild.id} - U:${song.url}`);
+  console.log(`[INFO:${formatter.format(new Date())}] G:${message.guild.id} - U:${song.url}`);
   let info = await ytdl.getInfo(song.url, {filter: 'audioonly', highWaterMark: 1 << 15});
   const stream = () => {
     if (info.livestream) {
