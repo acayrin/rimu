@@ -79,7 +79,7 @@ async function execute(message, serverQueue, directURL) {
     try {
       var connection = await voiceChannel.join();
       queueContruct.connection = connection;
-      play(message.guild, queueContruct.songs[0]);
+      play(message, queueContruct.songs[0]);
       // ======= load message =======//
   /****/load_msg.then(function(msg) {/****/
   /****/  msg.delete();              /****/
@@ -99,7 +99,7 @@ async function execute(message, serverQueue, directURL) {
 /****/});                          /****/
     // ======= load message =======//
       try {
-        play(message.guild, song);
+        play(message, song);
       } catch (err) {
         console.log(err);
         Main.queue.delete(message.guild.id);
