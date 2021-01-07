@@ -136,7 +136,7 @@ function stop(message, serverQueue) {
   if (!serverQueue)
     return message.channel.send("[**!**] Queue is empty!");
 
-  serverQueue.songs.shift();
+  serverQueue.songs = [];
   serverQueue.connection.dispatcher.end();
   message.channel.send(
     "[**!**] Stopped the music player."
