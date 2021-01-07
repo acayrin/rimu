@@ -156,7 +156,7 @@ async function play(message, song) {
     .setURL(song.url)
     .setAuthor('🎧 Now playing')
     .setThumbnail(song.thumbnail)
-    .setDescription(`[ **${song.author}** ] - [ **${(song.livestream) ? 'Livestream' : time_format(song.duration)}** ]`);
+    .setDescription(`[ **${song.author}** ] - [ **${(song.duration == 0) ? 'Livestream' : time_format(song.duration)}** ]`);
   let em = message.channel.send(embed).then(recent => {em = recent});
 
   // CONSOLE CHECK
