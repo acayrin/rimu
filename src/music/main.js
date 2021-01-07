@@ -146,8 +146,8 @@ function stop(message, serverQueue) {
 /******************************
   PLAY FUNCTION
 ******************************/
-async function play(guild, song) {
-  const serverQueue = Main.queue.get(guild.id);
+async function play(message, song) {
+  const serverQueue = Main.queue.get(message.channel.guild.id);
   if (!song)
     return serverQueue.songs.shift();
   const embed = new Discord.MessageEmbed()
@@ -157,11 +157,11 @@ async function play(guild, song) {
     .setAuthor('🎧 Now playing')
     .setThumbnail(song.thumbnail)
     .setDescription(`[ **${song.author}** ] - [ **${time_format(song.duration)}** ]`);
-  let em = serverQueue.textChannel.send(embed).then(recent => {em = recent});
+  let em = message.channel.send(embed).then(recent => {em = recent});
 
   // CONSOLE CHECK
-  console.log(`[INFO:${formatter.format(new Date())}] G:${guild.id} - U:${song.url}`);
-  let info = await ytdl.getInfo(song.url, {filter: 'audioonly', highWaterMark: 1 << 20});
+  console.log(`[INFO:${formatter.format(new Date())}] G:${message.channel.guild.id} - U:${song.url}`);
+  let info = await ytdl.getInfo(song.url, {filter: 'audioonly', highWaterMark: 1 << 15});
   const stream = () => {
     if (info.livestream) {
       const format = ytdl.chooseFormat(info.formats, {quality: [140,128,127,120,96,95,94,93]});
@@ -175,11 +175,11 @@ async function play(guild, song) {
       // ======= mics =======
       embed.setAuthor('🎧 Completed');
       em.delete();
-      serverQueue.textChannel.send(embed);
+      message.channel.send(embed);
       // ======= mics =======
 
       serverQueue.songs.shift();
-      play(guild, serverQueue.songs[0]);
+      play(message, serverQueue.songs[0]);
     })
     .on("error", error => console.error(error));
   dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
