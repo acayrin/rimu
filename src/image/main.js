@@ -9,8 +9,8 @@ function fetchIMG(message, subreddit) {
       .then(out => {
         const rng = Math.floor(Math.random() * out.data.children.length);
         const json = out.data.children[rng].data;
-           //prevent video       //only images                  //prevent gallery
-        if(!json.secure_media && json.url_overridden_by_dest && !json.is_gallery) {
+
+        if(!json.secure_media && json.is_reddit_media_domain && json.url_overridden_by_dest && !json.is_gallery) {
           const embed = new discord.MessageEmbed()
             .setColor('#e3b900')
             .setTitle(json.title)
