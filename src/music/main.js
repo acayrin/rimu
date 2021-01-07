@@ -90,8 +90,7 @@ async function execute(message, serverQueue, directURL) {
       Main.queue.delete(message.guild.id);
       return message.channel.send(err);
     }
-  } else {
-    if(serverQueue.songs.length == 0) {
+  } else if(serverQueue.songs.length == 0) {
       serverQueue.songs.push(song);
     // ======= load message =======//
 /****/load_msg.then(function(msg) {/****/

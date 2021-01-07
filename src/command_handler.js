@@ -50,5 +50,10 @@ module.exports = function() {
     if (message.content.startsWith("a>q")) {
       return MC.control(message, serverQueue);
     }
+    if (message.content.startsWith("a>img")) {
+      const search = message.content.replace("a>img", "").trim();
+      const IMG = require('./image/main');
+      IMG(message, (search) ? search : null);
+    }
   }
 }
