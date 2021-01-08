@@ -2,7 +2,7 @@
 
 A discord bot written in Javascript
 
-###Features
+### Features
 - Share emojis
 - Play music from Youtube (tba Soundcloud)
 - Search image from subreddit
