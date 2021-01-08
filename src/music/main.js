@@ -90,15 +90,15 @@ async function execute(message, serverQueue, directURL) {
       Main.queue.delete(message.guild.id);
       return message.channel.send(err);
     }
-  } else if(serverQueue.songs.length == 0) {
-      serverQueue.songs.push(song);
-    // ======= load message =======//
-/****/load_msg.then(function(msg) {/****/
-/****/  msg.delete();              /****/
-/****/});                          /****/
-    // ======= load message =======//
+  } else if(serverQueue.songs === []) {
       try {
+        serverQueue.songs.push(song);
         play(message, song);
+      // ======= load message =======//
+  /****/load_msg.then(function(msg) {/****/
+  /****/  msg.delete();              /****/
+  /****/});                          /****/
+      // ======= load message =======//
       } catch (err) {
         console.log(err);
         Main.queue.delete(message.guild.id);
