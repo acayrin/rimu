@@ -1,5 +1,4 @@
 const fetch = require('node-fetch');
-const utf8 = require('utf8');
 const discord = require('discord.js');
 
 function fetchIMG(message, subreddit) {

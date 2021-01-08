@@ -1,10 +1,10 @@
 // acay's shit bot
 // @acayrin
-// ver: 1.0.6
+// ver: 1.0.7
 require('./src/global_emotes')();
 require('./src/command_handler')();
 
-const ver = "1.0.6";
+const ver = "1.0.7";
 const Discord = require('discord.js');
 const client = new Discord.Client();
 // global var
