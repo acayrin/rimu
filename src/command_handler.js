@@ -30,7 +30,7 @@ module.exports = function() {
       return message.channel.send(embed);
     }
     if (message.content.startsWith("a>play")) {
-      return MC.stream(message, serverQueue, null);
+      return MC.stream(message, serverQueue);
     }
     if (message.content.startsWith("a>search")) {
       return lkYT.lookup_YT(message, null);
