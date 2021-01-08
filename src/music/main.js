@@ -2,6 +2,7 @@ require('../utils')();
 const Discord = require("discord.js");
 const Main = require('../../main.js');
 const ytdl = require("ytdl-core");
+var parallel = require('dimas-parallel');
 let options = {
   timeZone: 'Asia/Bangkok',
   year: 'numeric',
@@ -17,17 +18,19 @@ formatter = new Intl.DateTimeFormat([], options);
   MAIN FUNCTION
 ******************************/
 function stream(message, serverQueue) {
-  if(!isValidURL(message.content.replace("a>play", ""))) {
-    const lkYT = require('./lookupYT');
-    lkYT.lookup_YT(message, true).then(async (out) => {
-      if(out)
-        await execute(message, serverQueue, out);
-      else
-        return message.channel.send("[**?**] No results found.");
-    });
-  } else {
-    execute(message, serverQueue, null);
-  }
+  parallel.execute(function() {
+    if(!isValidURL(message.content.replace("a>play", ""))) {
+      const lkYT = require('./lookupYT');
+      lkYT.lookup_YT(message, true).then(async (out) => {
+        if(out)
+          await execute(message, serverQueue, out);
+        else
+          return message.channel.send("[**?**] No results found.");
+      });
+    } else {
+      execute(message, serverQueue, null);
+    }
+  })
 }
 
 /******************************
