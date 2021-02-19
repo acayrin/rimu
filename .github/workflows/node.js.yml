@@ -26,11 +26,12 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: npm run main
+    - run: npm build
     - run: npm test
     
     - name: Cache
       uses: actions/cache@v2
+      if: always()
       with:
         path: ~/.npm
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
