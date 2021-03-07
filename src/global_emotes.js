@@ -9,10 +9,10 @@ module.exports = function() {
 
       // replace emotes
       for(match of uniq_fast(list)) {
-        const emoji = client.emojis.cache?.find(emoji => emoji.name === match.replace(/:/g,""));
+        const emoji = client.emojis.cache.find(emoji => emoji.name === match.replace(/:/g,""));
 
         // check if from same servers
-        if (client.emojis.cache?.find(emoji => emoji.name === match.replace(/:/g,"")) != null)
+        if (client.emojis.cache.find(emoji => emoji.name === match.replace(/:/g,"")) != null)
         if (emoji.animated) {
           fix = fix.replace(new RegExp(match, 'g'), `<${emoji.identifier}>`);
           diff = true;
