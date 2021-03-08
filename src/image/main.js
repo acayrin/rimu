@@ -4,7 +4,7 @@ const discord = require('discord.js');
 
 function fetchIMG(message, subreddit) {
   const search = (subreddit) ? subreddit : "memes";
-  fetch(`https://www.reddit.com/r/${search}/top.json?sort=top&t=month&limit=500`)
+  fetch(`https://www.reddit.com/r/${search}/top.json?sort=top&t=week&limit=500`)
       .then(res => res.json())
       .then(out => {
         while (true) {
