@@ -5,18 +5,18 @@ const Discord = require('discord.js');
 
 const prefix = "?h";
 
-module.exports = function() {
-  this.cmd_proc = async function(message) {
+module.exports = function () {
+  this.cmd_proc = async function (message) {
     const serverQueue = Main.queue.get(message.guild.id);
 
     // skip if isn't command or message from bot
     if (!message.content.startsWith(prefix) || message.author.bot) return;
-    
+
     // parsing
     const check = message.content.slice(prefix.length).trim();
     const command = check.split(" ").shift().toLowerCase();
     const args = check.slice(command.length).trim();
-    
+
     if (command === 'help' || command === 'h') {
       const embed = new Discord.MessageEmbed()
         .setColor('#e3b900')
@@ -55,7 +55,7 @@ module.exports = function() {
     if (command === 'shuffle') {
       return MC.shuffle(message, serverQueue);
     }
-    if(command === 'config') {
+    if (command === 'config') {
       return MC.config(message, args, serverQueue);
     }
     if (command === 'q') {

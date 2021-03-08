@@ -1,6 +1,6 @@
 require('./utils')();
 
-module.exports = function() {
+module.exports = function () {
   this.ge_proc = async function (client, message) {
     const list = message.content.match(/(:(?![\n])[()#$@-\w]+:)/g);
     if (list && !message.author.bot) {
@@ -8,15 +8,15 @@ module.exports = function() {
       let diff = false;
 
       // replace emotes
-      for(match of uniq_fast(list)) {
-        const emoji = client.emojis.cache.find(emoji => emoji.name === match.replace(/:/g,""));
+      for (match of uniq_fast(list)) {
+        const emoji = client.emojis.cache.find(emoji => emoji.name === match.replace(/:/g, ""));
 
         // check if from same servers
-        if (client.emojis.cache.find(emoji => emoji.name === match.replace(/:/g,"")) != null)
-        if (emoji.animated) {
-          fix = fix.replace(new RegExp(match, 'g'), `<${emoji.identifier}>`);
-          diff = true;
-        } else if (emoji.guild.id !== message.channel.guild.id) {
+        if (client.emojis.cache.find(emoji => emoji.name === match.replace(/:/g, "")) != null)
+          if (emoji.animated) {
+            fix = fix.replace(new RegExp(match, 'g'), `<${emoji.identifier}>`);
+            diff = true;
+          } else if (emoji.guild.id !== message.channel.guild.id) {
           fix = fix.replace(new RegExp(match, 'g'), `<:${emoji.identifier}>`);
           diff = true;
         }
@@ -37,10 +37,12 @@ function send(message, msg) {
       for (i = 0; i < webhooks.array().length; i++)
         if (webhooks.array()[i].name === 'Hod')
           webhook = webhooks.array()[i];
-      
+
       // If hook not found
-      if(!webhook) 
-        webhook = await message.channel.createWebhook("Hod", { avatar: message.client.user.avatarURL() });
+      if (!webhook)
+        webhook = await message.channel.createWebhook("Hod", {
+          avatar: message.client.user.avatarURL()
+        });
 
       if (!message.deleted) message.delete();
 
@@ -52,7 +54,11 @@ function send(message, msg) {
         const filter = (reaction, user) => {
           return ['❌'].includes(reaction.emoji.name) && user.id === message.author.id;
         };
-        react.awaitReactions(filter, { max: 1, time: 1728000, errors: ['time'] })
+        react.awaitReactions(filter, {
+            max: 1,
+            time: 1728000,
+            errors: ['time']
+          })
           .then(e => {
             log(`User deleted bot message ID:${react.id}`);
             react.delete();

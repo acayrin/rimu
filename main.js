@@ -15,17 +15,17 @@ exports.queue = queue;
 
 client.login('Nzk1NjE4MTgxNTM2MDIyNTMw.X_L_LA.Dsy0CA9Qg0LHitJWKL99CVWwXq0');
 client.once('ready', () => {
-	log(`Enabled Hod v${ver}`);
-	client.user.setPresence({
+  log(`Enabled Hod v${ver}`);
+  client.user.setPresence({
     status: 'online',
     activity: {
       name: `${client.users.cache.size} users + ${client.guilds.cache.size} servers`,
       type: 'WATCHING',
     }
-	})
+  })
 });
 
 client.on('message', message => {
-	ge_proc(client, message);
-	cmd_proc(message);
+  ge_proc(client, message);
+  cmd_proc(message);
 });
