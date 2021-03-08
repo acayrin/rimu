@@ -5,17 +5,17 @@
   "main": "main.js",
   "engines": {
     "node": "14.x",
-    "npm": "6.x"
+    "npm": "7.x"
   },
   "dependencies": {
     "discord.js": "^12.5.1",
     "ffmpeg-static": "^4.2.7",
-    "node-opus": "^0.3.3",
-    "ytdl-core": "^4.4.1",
-    "ytsr": "^3.2.1",
+    "node-cache": "^5.1.2",
     "node-fetch": "^2.6.1",
+    "node-opus": "^0.3.3",
     "utf8": "^3.0.0",
-    "node-cache": "^5.1.2"
+    "ytdl-core": "^4.5.0",
+    "ytsr": "^3.2.1"
   },
   "devDependencies": {},
   "scripts": {

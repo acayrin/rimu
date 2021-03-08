@@ -2,39 +2,29 @@ require('../utils')();
 const Discord = require("discord.js");
 const Main = require('../../main.js');
 const ytdl = require("ytdl-core");
-let options = {
-  timeZone: 'Asia/Bangkok',
-  year: 'numeric',
-  month: 'numeric',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: 'numeric',
-  second: 'numeric',
-},
-formatter = new Intl.DateTimeFormat([], options);
 
 /******************************
   MAIN FUNCTION
 ******************************/
-function stream(message, serverQueue) {
-  if(!isValidURL(message.content.replace("a>play", ""))) {
+function stream(message, args, serverQueue) {
+  if(!isValidURL(args)) {
     const lkYT = require('./lookupYT');
-    lkYT.lookup_YT(message, true).then(async (out) => {
+    lkYT.lookup_YT(message, args, true).then(async (out) => {
       if(out)
-        await execute(message, serverQueue, out);
+        await execute(message, null, serverQueue, out);
       else
         return message.channel.send("[**?**] No results found.");
     });
   } else {
-    execute(message, serverQueue, null);
+    execute(message, args, serverQueue, null);
   }
 }
 
 /******************************
   EXECUTE FUNCTION
 ******************************/
-async function execute(message, serverQueue, directURL) {
-  const url = (directURL) ? directURL : message.content.replace("a>play", "");
+async function execute(message, args, serverQueue, directURL) {
+  const url = (directURL) ? directURL : args;
 
   const voiceChannel = message.member.voice.channel;
   if (!voiceChannel)
@@ -159,11 +149,12 @@ async function play(message, song) {
   let em = message.channel.send(embed).then(recent => {em = recent});
 
   // CONSOLE CHECK
-  console.log(`[INFO:${formatter.format(new Date())}] G:${message.guild.id} - U:${song.url}`);
+  log(`G:${message.guild.id} - U:${song.url}`);
+
   let info = await ytdl.getInfo(song.url, {filter: 'audioonly', highWaterMark: 1 << 15});
   const stream = () => {
     if (info.livestream) {
-      const format = ytdl.chooseFormat(info.formats, {quality: [140,128,127,120,96,95,94,93]});
+      const format = chooseFormat(info.formats, {quality: [140,128,127,120,96,95,94,93]});
       return format.url;
     } else return ytdl.downloadFromInfo(info);
   }
@@ -214,8 +205,8 @@ function control(message, serverQueue) {
 /******************************
   CONFIG FUNCTION
 ******************************/
-function config(message, serverQueue) {
-  const config  = message.content.replace("a>config", "");
+function config(message, args, serverQueue) {
+  const config  = args;
   for(const each of (config.replace(/\s+/g,' ').trim()).split(' ')) {
     try {
       const cfg_val = each.split('=');

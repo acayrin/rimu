@@ -38,5 +38,18 @@ module.exports = function() {
         [array[i], array[j]] = [array[j], array[i]];
       }
       return array;
-    }
+  }
+  this.log = function (string) {
+    let options = {
+      timeZone: 'Asia/Bangkok',
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+    },
+    formatter = new Intl.DateTimeFormat([], options);
+    console.log(`[INFO:${formatter.format(new Date())}] ${string}`);
+  }
 }

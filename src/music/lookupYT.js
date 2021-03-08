@@ -4,10 +4,10 @@ const MC = require('./main');
 const Discord = require('discord.js');
 const ytsr = require('ytsr');
 
-async function lookup_YT(message, once) {
+async function lookup_YT(message, args, once) {
   const channel = message.channel;
   let limit = 10;
-  let check = message.content.replace("a>search", "").replace("a>play", "").replace("--sort-r", "").replace('--sort-vc', '');
+  let check = args;
 
   // LIMIT SEARCH ITEMS
   if(check.match(/--c-\d+/g)) {
@@ -24,13 +24,13 @@ async function lookup_YT(message, once) {
   let f1 = search.get('Type').get('Video');
 
   // sort by rating
-  if(message.content.includes('--sort-r')) {
+  if(args.includes('--sort-r')) {
     search = await ytsr.getFilters(f1.url);
     f1 = search.get('Sort by').get('Rating');
   }
 
   // sort by view count
-  if(message.content.includes('--sort-vc')) {
+  if(args.includes('--sort-vc')) {
     search = await ytsr.getFilters(f1.url);
     f1 = search.get('Sort by').get('View count');
   }
@@ -74,8 +74,8 @@ async function lookup_YT(message, once) {
     ***********************/
     recent.channel.awaitMessages(m => m.author.id == message.author.id, { max: 1, time: 30000 }).then(collected => {
       if((/^-?\d+$/).test(collected.first().content) && collected.first().content > 0 && collected.first().content < results['items'].length+1) {
-
-        MC.execute(message, Main.queue.get(message.guild.id), temp.get(`'${collected.first().content}'`));
+        
+        MC.execute(message, null, Main.queue.get(message.guild.id), temp.get(`'${collected.first().content}'`));
 
         recent.delete();
         collected.first().delete();
