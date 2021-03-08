@@ -30,21 +30,36 @@ module.exports = function() {
   }
 }
 
-async function send(message, msg) {
+function send(message, msg) {
   try {
-    const webhooks = await message.channel.fetchWebhooks();
-    let webhook = webhooks.first();
-    if(!webhook)
-      webhook = await message.channel.createWebhook("Hod-webhook", {avatar: message.client.user.avatarURL(), reason: 'Create Hod-webhook'});
+    let webhook;
+    message.channel.fetchWebhooks().then(async webhooks => {
+      for (i = 0; i < webhooks.array().length; i++)
+        if (webhooks.array()[i].name === 'Hod')
+          webhook = webhooks.array()[i];
+      
+      // If hook not found
+      if(!webhook) 
+        webhook = await message.channel.createWebhook("Hod", { avatar: message.client.user.avatarURL() });
 
-    message.delete();
-    await webhook.send(msg, {
-      username: message.member.displayName,
-      avatarURL: message.author.avatarURL(),
-      channel: message.channel.id
-    });
+      if (!message.deleted) message.delete();
+
+      webhook.send(msg, {
+        username: message.member.displayName,
+        avatarURL: message.author.avatarURL(),
+        channel: message.channel.id
+      }).then(react => {
+        const filter = (reaction, user) => {
+          return ['❌'].includes(reaction.emoji.name) && user.id === message.author.id;
+        };
+        react.awaitReactions(filter, { max: 1, time: 1728000, errors: ['time'] })
+          .then(e => {
+            log(`User deleted bot message ID:${react.id}`);
+            react.delete();
+          })
+      });
+    })
   } catch (error) {
-    console.error('Error trying to send: ', error);
     send(message, msg);
   }
 }

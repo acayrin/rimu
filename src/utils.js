@@ -50,6 +50,6 @@ module.exports = function() {
       second: 'numeric',
     },
     formatter = new Intl.DateTimeFormat([], options);
-    console.log(`[INFO:${formatter.format(new Date())}] ${string}`);
+    console.log(`[${formatter.format(new Date())}] ${string}`);
   }
 }

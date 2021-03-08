@@ -3,7 +3,8 @@ const fetch = require('node-fetch');
 const discord = require('discord.js');
 
 function fetchIMG(message, subreddit) {
-  const search = (subreddit) ? subreddit : "memes";
+  const list = ['memes', 'dankmemes', 'funny', 'wholesomememes'];
+  const search = (subreddit) ? subreddit : list[Math.floor(Math.random() * list.length)];
   fetch(`https://www.reddit.com/r/${search}/top.json?sort=top&t=week&limit=500`)
       .then(res => res.json())
       .then(out => {
