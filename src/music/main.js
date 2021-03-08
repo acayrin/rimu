@@ -71,13 +71,9 @@ async function execute(message, args, serverQueue, directURL) {
       queueContruct.connection = connection;
       play(message, queueContruct.songs[0]);
       // ======= load message =======//
-      /****/
       load_msg.then(function (msg) {
-        /****/
-        /****/
-        msg.delete(); /****/
-        /****/
-      }); /****/
+        msg.delete();
+      });
       // ======= load message =======//
     } catch (err) {
       console.log(err);
@@ -89,13 +85,9 @@ async function execute(message, args, serverQueue, directURL) {
       serverQueue.songs.push(song);
       play(message, song);
       // ======= load message =======//
-      /****/
       load_msg.then(function (msg) {
-        /****/
-        /****/
-        msg.delete(); /****/
-        /****/
-      }); /****/
+        msg.delete();
+      });
       // ======= load message =======//
     } catch (err) {
       console.log(err);
@@ -105,13 +97,9 @@ async function execute(message, args, serverQueue, directURL) {
   } else {
     serverQueue.songs.push(song);
     // ======= load message =======//
-    /****/
     load_msg.then(function (msg) {
-      /****/
-      /****/
-      msg.delete(); /****/
-      /****/
-    }); /****/
+      msg.delete();
+    });
     // ======= load message =======//
     return message.channel.send(`[ Queue ] ++ [ **${song.author}** ] - [ **${song.title}** ]`);
   }
@@ -139,6 +127,8 @@ function stop(message, serverQueue) {
 
   serverQueue.songs = [];
   serverQueue.connection.dispatcher.end();
+  serverQueue.connection.disconnect();
+  Main.queue.delete(message.guild.id);
   message.channel.send(
     "[**!**] Stopped the music player."
   );
@@ -149,8 +139,12 @@ function stop(message, serverQueue) {
 ******************************/
 async function play(message, song) {
   const serverQueue = Main.queue.get(message.guild.id);
-  if (!song)
-    return serverQueue.songs.shift();
+
+  if (!song) {
+    serverQueue.connection.disconnect();
+    return Main.queue.delete(message.guild.id);
+  }
+
   const embed = new Discord.MessageEmbed()
     .setColor('#e3b900')
     .setTitle(song.title)
@@ -165,26 +159,13 @@ async function play(message, song) {
   // CONSOLE CHECK
   log(`G:${message.guild.id} - U:${song.url}`);
 
-  let info = await ytdl.getInfo(song.url, {
-    filter: 'audioonly',
-    highWaterMark: 1 << 25,
-    opusEncoded: true
-  });
-  const stream = () => {
-    if (info.livestream) {
-      const format = chooseFormat(info.formats, {
-        quality: [140, 128, 127, 120, 96, 95, 94, 93]
-      });
-      return format.url;
-    } else return ytdl.downloadFromInfo(info);
-  }
   const dispatcher = serverQueue.connection
-    .play((info.livestream) ? stream() : await ytdl(song.url, {
-      filter: 'audioonly',
-      opusEncoded: true,
-      highWaterMark: 1 << 25
+    .play(await ytdl(song.url, {
+      highWaterMark: 600,
+      dlChunkSize: 2048,
+      quality: 'highestaudio'
     }), {
-      type: 'opus'
+      type: "opus"
     })
     .on("finish", () => {
 
@@ -198,11 +179,11 @@ async function play(message, song) {
       play(message, serverQueue.songs[0]);
     })
     .on("error", error => console.error(error));
-  dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+  dispatcher.setVolumeLogarithmic(serverQueue.volume / 4);
 }
 
 /******************************
-  CONTROL FUNCTION
+  CONTROL FUNCTIO
 ******************************/
 function control(message, serverQueue) {
   if (!message.member.voice.channel)
@@ -226,7 +207,6 @@ function control(message, serverQueue) {
     );
   }
 }
-
 
 /******************************
   CONFIG FUNCTION
