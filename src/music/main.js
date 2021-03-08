@@ -151,7 +151,7 @@ async function play(message, song) {
   // CONSOLE CHECK
   log(`G:${message.guild.id} - U:${song.url}`);
 
-  let info = await ytdl.getInfo(song.url, { filter: 'audioonly', highWaterMark: 1 << 10, opusEncoded: true });
+  let info = await ytdl.getInfo(song.url, { filter: 'audioonly', highWaterMark: 1 << 25, opusEncoded: true });
   const stream = () => {
     if (info.livestream) {
       const format = chooseFormat(info.formats, {quality: [140,128,127,120,96,95,94,93]});
@@ -159,7 +159,7 @@ async function play(message, song) {
     } else return ytdl.downloadFromInfo(info);
   }
   const dispatcher = serverQueue.connection
-    .play((info.livestream) ? stream() : await ytdl(song.url, { filter: 'audioonly', opusEncoded: true, highWaterMark: 1 << 10, dlChunkSize: 5000000 }), { type: 'opus' })
+    .play((info.livestream) ? stream() : await ytdl(song.url, { filter: 'audioonly', opusEncoded: true, highWaterMark: 1 << 25}), { type: 'opus' })
     .on("finish", () => {
 
       // ======= mics =======
