@@ -21,8 +21,8 @@ module.exports.gnID = gnID
 // end of global var
 
 const revision = require('child_process')
-  .execSync('git rev-parse --short HEAD')
-  .toString().trim()
+  .execSync('git ls-remote https://Acayrin:"Kimbang012!"@github.com/Acayrin/acay-s-bot/ | head -1 | sed "s/HEAD//"')
+  .toString().trim().substring(0, 10)
 
 client.login('Nzk1NjE4MTgxNTM2MDIyNTMw.X_L_LA.Dsy0CA9Qg0LHitJWKL99CVWwXq0')
 
