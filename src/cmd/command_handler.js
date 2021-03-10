@@ -30,8 +30,6 @@ module.exports.cproc = async (message) => {
       .addField("❓ Help", "`Usage:` **?h help** `|` **?h h**\n`Show the command list\nalias: ?h h`", true)
       .addField("\u200C", "\u200C", false)
       .addField("🔍 Search", "`Usage:` **?h search [string] [options]**\n`Search a song by given string, and options for search results`" +
-        "\n**--sort-r**\n`Sort by rating`" +
-        "\n**--sort-vc**\n`Sort by view count`" +
         "\n**--c-[number]**\n`Change amount of results\nAccept range` **1-25**\n`eg: ?h search hello --c-10`" +
         "\n`Maximum` **25** `items only`", true)
       .addField("⚙️ Config", "`Usage:` **?h config [options]**\n`Change player options`" +
