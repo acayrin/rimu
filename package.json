@@ -2,24 +2,33 @@
   "name": "acays-bot",
   "version": "1.1",
   "description": "A multi-purpose discord bot",
-  "main": "main.js",
   "engines": {
     "node": "14.x",
     "npm": "7.x"
   },
   "dependencies": {
+    "@discordjs/opus": "^0.4.0",
+    "bandcamp-fetch": "^0.1.0-a-20210216",
+    "bandcamp-scraper": "^1.4.1",
+    "bluebird": "^3.7.2",
+    "dateformat": "^4.5.1",
+    "discord-ytdl-core": "^5.0.1",
     "discord.js": "^12.5.1",
     "ffmpeg-static": "^4.2.7",
+    "fluent-ffmpeg": "^2.1.2",
+    "genius-lyrics-api": "^3.0.6",
     "node-cache": "^5.1.2",
     "node-fetch": "^2.6.1",
-    "node-opus": "^0.3.3",
+    "soundcloud-downloader": "^0.2.4",
     "utf8": "^3.0.0",
-    "ytdl-core-discord": "^1.2.5",
+    "youtubei": "^0.0.1-rc.13",
+    "ytdl-core": "^4.5.0",
+    "ytpl": "^2.0.5",
     "ytsr": "^3.3.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node main.js"
+    "start": "node src/main.js"
   },
   "keywords": [
     "acay"
