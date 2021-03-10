@@ -21,17 +21,20 @@
     "node-fetch": "^2.6.1",
     "soundcloud-downloader": "^0.2.4",
     "utf8": "^3.0.0",
-    "youtubei": "^0.0.1-rc.13",
     "ytdl-core": "^4.5.0",
     "ytpl": "^2.0.5",
     "ytsr": "^3.3.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "first": "npm install",
     "start": "node src/main.js"
   },
   "keywords": [
-    "acay"
+    "acay",
+    "acayrin",
+    "acayr1n",
+    "rimu",
+    "rimu bot"
   ],
   "author": "acay",
   "license": "MIT"
