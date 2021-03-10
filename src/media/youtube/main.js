@@ -166,7 +166,7 @@ async function play(message, song) {
   const dispatcher = serverQueue.connection
     .play(require('fluent-ffmpeg')
       (ytdl(song.url, {
-        highWaterMark: 1 << 5,
+        highWaterMark: 512000,
         liveBuffer: 30000,
         dlChunkSize: 2048
       }))
