@@ -6,7 +6,7 @@ const {
 } = require('../../etc/utils');
 const Discord = require("discord.js");
 const Main = require('../../main.js');
-const ytdl = require("discord-ytdl-core");
+const ytdl = require("ytdl-core");
 
 /******************************
   MAIN FUNCTION
