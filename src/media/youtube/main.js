@@ -6,7 +6,7 @@ const {
 } = require('../../etc/utils');
 const Discord = require("discord.js");
 const Main = require('../../main.js');
-const ytdl = require("discord-ytdl-core");
+const ytdl = require("ytdl-core");
 
 /******************************
   MAIN FUNCTION
@@ -157,23 +157,29 @@ async function play(message, song) {
     .setThumbnail(song.thumbnail)
     .setDescription(`[ **${song.author}** ] - [ **${(song.duration == 0) ? 'Livestream' : time_format(song.duration)}** ]`)
     .setFooter(`- ${song.requester}`);
-  let em
-  await message.channel.send(embed).then(recent => {
+  let em = message.channel.send(embed).then(recent => {
     em = recent
   });
 
   // CONSOLE CHECK
   log(`G:${message.guild.id} - U:${song.url}`);
   const dispatcher = serverQueue.connection
-    .play(ytdl(song.url, {
-      opusEncoded: true
-    }), {
+    .play(require('fluent-ffmpeg')
+      (ytdl(song.url, {
+        highWaterMark: 1 << 5,
+        liveBuffer: 30000,
+        dlChunkSize: 2048
+      }))
+      .noVideo()
+      .audioCodec('flac')
+      .format('flac')
+      .audioBitrate('64')
       // Equalizer ?
       //.audioFilters('equalizer=f=440:width_type=o:width=2:g=5,equalizer=f=1000:width_type=h:width=200:g=-10')
       // Metal 
       //.complexFilter('aecho=0.8:0.88:8:0.8')
-      type: 'opus'
-    })
+      .pipe()
+    )
     .on("finish", () => {
 
       // ======= mics =======
