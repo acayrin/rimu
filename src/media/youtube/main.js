@@ -6,7 +6,7 @@ const {
 } = require('../../etc/utils');
 const Discord = require("discord.js");
 const Main = require('../../main.js');
-const ytdl = require("ytdl-core");
+const ytdl = require("discord-ytdl-core");
 
 /******************************
   MAIN FUNCTION
@@ -164,24 +164,18 @@ async function play(message, song) {
   // CONSOLE CHECK
   log(`G:${message.guild.id} - U:${song.url}`);
   const dispatcher = serverQueue.connection
-    .play(require('fluent-ffmpeg')
-      (ytdl(song.url, {
-        highWaterMark: 512000,
-        liveBuffer: 30000,
-        dlChunkSize: 2048
-      }))
-      .noVideo()
-      .audioCodec('opus')
-      .format('ogg')
-      .audioBitrate('96')
+    .play(ytdl(song.url, {
+      opusEncoded: true,
+      encoderArgs: [
+        '-ab 96'
+      ]
+    }), {
       // Equalizer ?
       //.audioFilters('equalizer=f=440:width_type=o:width=2:g=5,equalizer=f=1000:width_type=h:width=200:g=-10')
       // Metal 
       //.complexFilter('aecho=0.8:0.88:8:0.8')
-      .pipe(), {
-        type: 'ogg/opus'
-      }
-    )
+      type: 'opus'
+    })
     .on("finish", () => {
 
       // ======= mics =======

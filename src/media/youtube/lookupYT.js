@@ -18,23 +18,16 @@ async function lookup_YT(message, args, once) {
   const load_msg = channel.send("[**?**] Processing...");
   // ======= loading message =======
 
-  let search = await ytsr.getFilters(args.replace('--sort-r', '').replace('--sort-vc', '')).catch(err => {
+  let search = await ytsr.getFilters(args).catch(err => {
     message.channel.send("[**!**] Unable to fetch results.");
     console.log(err)
   });
   let f1 = search.get('Type').get('Video');
 
-  // sort by rating
-  if (args.includes('--sort-r')) {
-    search = await ytsr.getFilters(f1.url);
-    f1 = search.get('Sort by').get('Rating');
-  }
-
+  // Enabled by Default
   // sort by view count
-  if (args.includes('--sort-vc')) {
-    search = await ytsr.getFilters(f1.url);
-    f1 = search.get('Sort by').get('View count');
-  }
+  search = await ytsr.getFilters(f1.url);
+  f1 = search.get('Sort by').get('View count');
 
   const opt = {
     limit: limit
