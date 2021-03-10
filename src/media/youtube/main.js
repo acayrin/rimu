@@ -171,14 +171,16 @@ async function play(message, song) {
         dlChunkSize: 2048
       }))
       .noVideo()
-      .audioCodec('flac')
-      .format('flac')
-      .audioBitrate('64')
+      .audioCodec('opus')
+      .format('ogg')
+      .audioBitrate('96')
       // Equalizer ?
       //.audioFilters('equalizer=f=440:width_type=o:width=2:g=5,equalizer=f=1000:width_type=h:width=200:g=-10')
       // Metal 
       //.complexFilter('aecho=0.8:0.88:8:0.8')
-      .pipe()
+      .pipe(), {
+        type: 'ogg/opus'
+      }
     )
     .on("finish", () => {
 
