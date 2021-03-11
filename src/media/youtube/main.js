@@ -166,24 +166,12 @@ async function play(message, song) {
   // CONSOLE CHECK
   log(`G:${message.guild.id} - U:${song.url}`);
   const dispatcher = serverQueue.connection
-    .play(require('fluent-ffmpeg')
-      (ytdl(song.url, {
-        highWaterMark: 1 << 15,
-        liveBuffer: 30000,
-        dlChunkSize: 2048
-      }))
-      .noVideo()
-      .audioCodec('opus')
-      .format('ogg')
-      .audioBitrate('64')
-      // Equalizer ?
-      //.audioFilters('equalizer=f=440:width_type=o:width=2:g=5,equalizer=f=1000:width_type=h:width=200:g=-10')
-      // Metal 
-      //.complexFilter('aecho=0.8:0.88:8:0.8')
-      .pipe(), {
-        type: 'ogg/opus'
-      }
-    )
+    .play(await require('./fetch').download(song.url, {
+      highWaterMark: 1 << 15,
+      dlChunkSize: 2048,
+    }), {
+      type: 'opus'
+    })
     .on("finish", () => {
 
       // ======= mics =======

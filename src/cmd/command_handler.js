@@ -2,9 +2,8 @@ const Main = require('../main')
 const MC = require('../media/youtube/main')
 const lkYT = require('../media/youtube/lookupYT')
 const Discord = require('discord.js')
-const getLyrics = require('genius-lyrics-api/lib/getLyrics')
 
-const prefix = "?h"
+const prefix = "="
 
 module.exports.cproc = async (message) => {
   const serverQueue = Main.queue.get(message.guild.id)
@@ -17,7 +16,7 @@ module.exports.cproc = async (message) => {
   const command = check.split(" ").shift().toLowerCase()
   const args = check.slice(command.length).trim()
 
-  if (!command || command === 'help' || command === 'h') {
+  if (command === 'help' || command === 'h') {
     const embed = new Discord.MessageEmbed()
       .setColor('#e3b900')
       .setTitle('**Command List**')

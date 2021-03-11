@@ -15,6 +15,8 @@ module.exports.uniq_fast = (a) => {
 
 module.exports.time_format = (time) => {
   // Hours, minutes and seconds
+  time = Math.floor(time)
+
   var hrs = ~~(time / 3600);
   var mins = ~~((time % 3600) / 60);
   var secs = ~~time % 60;
@@ -42,7 +44,7 @@ module.exports.shuffleArray = (array) => {
   return array;
 }
 
-module.exports.log = (string) => {
+module.exports.log = (string, _isConsole) => {
   let options = {
       timeZone: 'Asia/Bangkok',
       year: 'numeric',
@@ -53,5 +55,5 @@ module.exports.log = (string) => {
       second: 'numeric',
     },
     formatter = new Intl.DateTimeFormat([], options);
-  console.log(`[${formatter.format(new Date())}] ${string}`);
+  console.log(`[${(_isConsole) ? 'Console' : 'Discord'} - ${formatter.format(new Date())}] ${string}`);
 }
