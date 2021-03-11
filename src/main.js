@@ -35,7 +35,7 @@ if (!require('fs').existsSync(require('ffmpeg-static'))) {
 }
 
 client.once('ready', () => {
-  log(`Enabled Hod #${revision}`)
+  log(`Enabled Rimu #${revision}`)
 
   // sweep messages every hour
   client.setInterval(() =>
