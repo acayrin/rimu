@@ -8,9 +8,11 @@ const {
 const {
   cproc
 } = require('./cmd/command_handler')
+const Redis = require("ioredis");
 const Discord = require('discord.js')
 const client = new Discord.Client()
 
+const reID = 'redis://redistogo:3836450ed78400a4656586f169cf2765@scat.redistogo.com:11383/'
 const scID = '8VYpK2wS7aOYHwRFi4wZE1P51Z00WaeR'
 const gnID = 'cTvBBYPzs4M-1rA97lno6mpep-l-eh2W-j5u8jdW9CtunPgX_ZSJRInZ8E46YuG9'
 const dsID = 'Nzk1NjE4MTgxNTM2MDIyNTMw.X_L_LA.Dsy0CA9Qg0LHitJWKL99CVWwXq0'
@@ -37,14 +39,23 @@ if (!require('fs').existsSync(require('ffmpeg-static'))) {
 client.once('ready', () => {
   log(`Enabled Rimu #${revision}`)
 
-  // sweep messages every hour
+  // hourly tasks
   client.setInterval(() =>
     log(`Sweeped ${client.sweepMessages(sweepMax)} messages`), 3600000)
+
+  // database
+  const redis = new Redis(reID)
+  client.setInterval(() => {
+
+    redis.set('h_cpu', require('child_process').execSync(`ps up "${process.pid}" | tail -n1 | tr -s ' ' | cut -f3 -d' '`))
+    redis.set('d_guild', client.guilds.cache.size)
+    redis.set('d_user', client.users.cache.size)
+  }, 5000)
 
   presence(`Current commit: #${revision}`)
   client.setInterval(() => {
     presence(`Current commit: #${revision}`)
-    client.setTimeout(async () => {
+    client.setTimeout(() => {
       presence(`Server: ${client.guilds.cache.size} - User: ${client.users.cache.size}`)
     }, 5000)
   }, 10000)
