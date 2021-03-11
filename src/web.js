@@ -4,7 +4,7 @@ const fs = require('fs')
 const Redis = require("ioredis");
 
 const reID = 'redis://redistogo:3836450ed78400a4656586f169cf2765@scat.redistogo.com:11383/'
-const port = 3000
+const port = process.env.PORT || 3000
 
 const redis = new Redis(reID)
 
