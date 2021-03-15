@@ -10,11 +10,14 @@
     "@discordjs/opus": "^0.4.0",
     "ajv": "^4.11.8",
     "axios": "^0.21.1",
+    "bandcamp-fetch": "0.1.0-a-20210216",
+    "bandcamp-scraper": "^1.4.1",
     "bottleneck": "^2.19.5",
     "bufferutil": "^4.0.3",
     "cheerio": "^1.0.0-rc.5",
     "dateformat": "^4.5.1",
     "deasync": "^0.1.21",
+    "discord.js": "^12.5.1",
     "eris": "^0.14.0",
     "erlpack": "^0.1.3",
     "eval": "^0.1.6",
@@ -40,7 +43,8 @@
   "scripts": {
     "firstrun": "npm clean-install",
     "web": "node --trace-warnings src/web",
-    "start": "node --trace-warnings src/Rimu"
+    "eris": "node --trace-warnings _eris/Rimu",
+    "dsjs": "node --trace-warnings _discordjs/Rimu"
   },
   "keywords": [
     "acay",
