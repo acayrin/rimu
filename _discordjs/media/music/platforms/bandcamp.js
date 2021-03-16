@@ -4,6 +4,17 @@ const deasync = require('deasync');
 
 let list = [];
 
+async function searchUrl(query) {
+    const info = await bcf.getTrackInfo(query);
+    return {
+        title: info.name,
+        artist: info.artist.name,
+        url: info.streamUrl,
+        thumbnail: info.imageUrl,
+        duration: require('../../../etc/utils').time_format(Math.round(info.duration))
+    }
+}
+
 async function search(search, _limit) {
     return searchAll(search, 1, _limit);
 }
@@ -38,5 +49,6 @@ function searchAll(search, _page, _limit) {
 }
 
 module.exports = {
-    search
+    search,
+    searchUrl
 }

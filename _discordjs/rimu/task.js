@@ -10,12 +10,12 @@ function task(client) {
 
   client.setInterval(() => require('../etc/utils').log(`Sweeped ${client.sweepMessages(3600)} messages`), 3600000);
 
-  client.setInterval(() => {
+  /*client.setInterval(() => {
     presence(client, `Current commit: #${require('../Rimu').revision}`);
     client.setTimeout(() => {
       presence(client, `Server: ${client.guilds.cache.size} - User: ${client.users.cache.size}`);
     }, 5000);
-  }, 10000);
+  }, 10000);*/
 }
 
 async function presence(client, string) {

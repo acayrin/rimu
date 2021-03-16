@@ -26,7 +26,7 @@ module.exports.convert = (get, _filter) => {
     const opus = new prism.opus.Encoder({
         rate: 48000,
         channels: 2,
-        frameSize: 960
+        frameSize: 2880
     });
 
     const stream = s16le.pipe(opus);

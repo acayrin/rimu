@@ -1,5 +1,6 @@
 #Custom
-package.lock.json
+package-lock.json
+_eris
 
 # Logs
 logs

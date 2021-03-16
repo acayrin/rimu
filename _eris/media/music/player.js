@@ -27,7 +27,8 @@ function play(platform, track, voiceID, textID) {
         embed.setFooter(`- ${request}`);
         Lib.send(textID, '', (embed));
 
-        connection.stopPlaying();
+        while (connection.playing || !connection.ready)
+            connection.stopPlaying();
 
         switch (platform) {
             case 'sc':

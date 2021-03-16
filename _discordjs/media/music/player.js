@@ -3,11 +3,18 @@ const Soundcloud = require('soundcloud-downloader').create({
 })
 const Youtube = require('ytdl-core'),
     Bandcamp = require('bandcamp-fetch'),
-    Prism = require('./stream'),
-    Discord = require('discord.js');
+    Prism = require('./stream');
 
 async function play(platform, track, voiceChannel, textChannel) {
-    var connection = await voiceChannel.join();
+    if (!voiceChannel)
+        textChannel.send('Please join a voice channel first');
+    var connection;
+    try {
+        connection = await voiceChannel.join();
+    } catch (e) {
+        connection.disconnect();
+        connection = await voiceChannel.join();
+    }
 
     const title = track.title,
         artist = track.artist,
@@ -16,46 +23,30 @@ async function play(platform, track, voiceChannel, textChannel) {
         thumbnail = track.thumbnail,
         duration = track.duration;
 
-    const embed = new Discord.MessageEmbed()
-        .setColor('#e3b900')
-        .setTitle(title)
-        .setURL(url)
-        .setAuthor('🎧 Now playing')
-        .setThumbnail(thumbnail)
-        .setDescription(`[ **${artist}** ] - [ **${(!duration) ? 'Livestream' : duration}** ]`)
-        .setFooter(`- ${request}`);
-    textChannel.send(embed);
+    const _txt = await textChannel.send(`> Playing **${title}** [${(!duration) ? 'Livestream' : duration}] ${artist !== '?' ? 'by **' + artist + '**' : 'from **' + url + '**'}`);
 
+    let stream;
     switch (platform) {
         case 'sc':
-            connection.play(Prism.convert(await Soundcloud.download(url)), {
-                type: 'opus'
-            }).on("finish", () => {
-                connection.disconnect();
-            });
+            stream = await Soundcloud.download(url);
             break;
         case 'bc':
             var info = await Bandcamp.getTrackInfo(url);
-            require('https').get(info.streamUrl, res =>
-                connection.play(Prism.convert(res), {
-                    type: 'opus'
-                }).on("finish", () => {
-                    connection.disconnect();
-                })
-            );
+            stream = (await require('node-fetch')(info.streamUrl)).body;
             break;
         default:
-            var stream = Youtube(url, {
-                highWaterMark: 1 << 10,
+            stream = Youtube(url, {
+                highWaterMark: 16384,
                 dlChunkSize: 2048,
-                liveBuffer: 15000
-            });
-            connection.play(Prism.convert(stream), {
-                type: 'opus'
-            }).on("finish", () => {
-                connection.disconnect();
+                liveBuffer: 10000
             });
     }
+    connection.play(Prism.convert(stream), {
+        type: 'opus'
+    }).on("finish", () => {
+        _txt.edit(`${_txt.content} (Completed)`);
+        connection.disconnect();
+    });
 }
 
 module.exports = {

@@ -1,1 +1,0 @@
-module.exports={ReactionCollector:require("./collector/ReactionCollector"),MessageCollector:require("./collector/MessageCollector"),embedBuilder:require("./eris/embedBuilder").Embed,send:require("./eris/sendMessage").send,getChannel:require("./eris/getChannel").getChannel};

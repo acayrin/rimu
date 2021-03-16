@@ -15,6 +15,21 @@ async function search(query, _limit) {
     return res.collection;
 }
 
+async function searchUrl(query) {
+    const info = await scdl.getInfo(query).catch(e => {
+        console.log(e);
+        return null;
+    });
+    return {
+        title: info.title,
+        artist: info.user.username,
+        url: info.permalink_url,
+        thumbnail: info.artwork_url ? info.artwork_url : info.user.avatar_url,
+        duration: require('../../../etc/utils').time_format(Math.round(info.full_duration / 1000))
+    }
+}
+
 module.exports = {
-    search
+    search,
+    searchUrl
 }

@@ -1,4 +1,6 @@
-const ytsr = require('ytsr');
+const ytsr = require('ytsr'),
+    ytdl = require('ytdl-core'),
+    utils = require('../../../etc/utils');
 
 async function search(query, _limit) {
     const f1 = await ytsr.getFilters(query).catch(e => {
@@ -17,6 +19,18 @@ async function search(query, _limit) {
     return res['items'];
 }
 
+async function searchUrl(query) {
+    const info = (await ytdl.getBasicInfo(query)).videoDetails;
+    return {
+        title: info.title,
+        artist: info.ownerChannelName,
+        url: info.video_url,
+        thumbnail: info.thumbnails[info.thumbnails.length - 2].url,
+        duration: utils.time_format(info.lengthSeconds)
+    }
+}
+
 module.exports = {
-    search
+    search,
+    searchUrl
 }
