@@ -42,7 +42,7 @@
   },
   "scripts": {
     "firstrun": "npm clean-install",
-    "web": "node --trace-warnings src/web",
+    "web": "node --trace-warnings _discordjs/web",
     "eris": "node --trace-warnings _eris/Rimu",
     "dsjs": "node --trace-warnings _discordjs/Rimu"
   },
