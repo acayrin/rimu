@@ -31,6 +31,7 @@
     "node-cache": "^5.1.2",
     "node-fetch": "^2.6.1",
     "prism-media": "1.2.7",
+    "public-ip": "^4.0.3",
     "scrape-it": "^5.3.1",
     "sodium-native": "^3.2.1",
     "soundcloud-downloader": "^0.2.4",
