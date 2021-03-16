@@ -1,29 +1,87 @@
 <html>
 
 <head>
-    <title>Rimu</title>
+    <title>rimu</title>
+    
+    <meta charset="UTF-8">
+    <meta name="description" content="krab">
+    <meta name="keywords" content="krab">
+    <meta name="author" content="krab">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
     <script type='text/javascript'>
         setInterval(function () {
-            $.get('/h_cpu', function (e) {
-                $('#h_cpu').text(e).text();
+            $.get('http://localhost:%%port%%/h_cpu', function (e) {
+                $('#h_cpu').text(Math.round(e)).text();
             })
-            $.get('/d_guild', function (e) {
+            $.get('http://localhost:%%port%%/d_guild', function (e) {
                 $('#d_guild').text(e).text();
             })
-            $.get('/d_user', function (e) {
+            $.get('http://localhost:%%port%%/d_user', function (e) {
                 $('#d_user').text(e).text();
             })
-        }, 30000)
+        }, 1000)
     </script>
+    <style>
+        body {
+            background: url(https://media.giphy.com/media/2dK0W3oUksQk0Xz8OK/giphy.gif);
+        }
+        .soot {
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: black;
+            filter: opacity(0.8);
+        }
+        .woot {
+            color: rgb(186, 186, 186);
+            text-align: center;
+            text-decoration: none;
+            font-size: 24px;
+            font-family: monospace;
+            letter-spacing: 5px;
+            height: 300px;
+            width: 500px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-top: -150px;
+            margin-left: -250px;
+            z-index: 69420;
+        }
+        .rainbow {
+            background: linear-gradient(to right, #6666ff, #0099ff , #00ff00, #ff3399, #6666ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: rainbow_animation 4s ease-in-out infinite;
+            background-size: 400% 100%;
+        }
+
+        @keyframes rainbow_animation {
+            0%,100% {
+                background-position: 0 0;
+            }
+
+            50% {
+                background-position: 100% 0;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Rimu bot</h1>
-    <h3>- <i>bababooey</i></h3>
-    Cpu usage: <span id='h_cpu'>0</span>%</br>
-    Guilds: <span id='d_guild'>0</span></br>
-    Users: <span id='d_user'>0</span></br>
+    <div class="soot"></div>
+    <div class="woot" align="center">
+        <h1 class="rainbow">rimuwu</h1>
+        <h3><i>krab krab krab</i></h3>
+        C: <span id='h_cpu'>0</span></br>
+        G: <span id='d_guild'>0</span></br>
+        U: <span id='d_user'>0</span></br>
+    </div>
 </body>
 
 </html>

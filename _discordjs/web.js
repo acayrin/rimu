@@ -1,16 +1,31 @@
-const express = require("express");
-const app = express();
-const Redis = require("ioredis");
-const reID = "redis://redistogo:3836450ed78400a4656586f169cf2765@scat.redistogo.com:11383/";
-const port = process.env.PORT || 3000;
-const redis = new Redis(reID);
-const ngrok = require('ngrok');
+const fs = require('fs'),
+    express = require("express"),
+    app = express(),
+    port = require('./Rimu').port,
+    Redis = require("ioredis"),
+    reID = require('./Rimu').reID,
+    redis = new Redis(reID),
+    {
+        log
+    } = require('./etc/utils');
 
 function startWebServer() {
-    (async () => {
-        console.log('ngrok url: ' + await ngrok.connect(port))
-    })();
-    app.use(express.static(__dirname + "/web"));
+    app.use(function (req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header('Access-Control-Allow-Methods', 'DELETE, PUT');
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        if ('OPTIONS' == req.method)
+            res.sendStatus(200);
+        else
+            next();
+    });
+    //app.use(express.static(__dirname + "/web"));
+    app.get("/", (req, res) => {
+        const _index = fs.readFileSync(__dirname + '/web/index.html', {
+            encoding: "utf8"
+        });
+        res.send(_index.replace(/%%port%%/g, port));
+    });
     app.get("/port", (req, res) => {
         res.send(`<html>${port}</html>`)
     });
@@ -23,8 +38,17 @@ function startWebServer() {
     app.get("/d_user", (req, res) => {
         redis.get("d_user").then(e => res.send(`${e}`))
     });
+    app.get("/h_log", (req, res) => {
+        redis.get("h_log").then(e => {
+            let out = '';
+            e.forEach(line => {
+                out += "<br/>" + line;
+            });
+            res.send(out);
+        })
+    });
     app.listen(port, () => {
-        console.log("Website ready")
+        log("Website ready", 1);
     });
 }
 

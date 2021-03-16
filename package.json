@@ -1,6 +1,6 @@
 {
   "name": "rimu",
-  "version": "1.1.3a",
+  "version": "1.1.4",
   "description": "A multi-purpose discord bot",
   "engines": {
     "node": "14.x",
@@ -15,6 +15,7 @@
     "bottleneck": "^2.19.5",
     "bufferutil": "^4.0.3",
     "cheerio": "^1.0.0-rc.5",
+    "cors": "^2.8.5",
     "dateformat": "^4.5.1",
     "deasync": "^0.1.21",
     "discord.js": "^12.5.1",
@@ -28,7 +29,7 @@
     "ioredis": "^4.23.0",
     "json5": "^2.2.0",
     "linez": "^4.1.4",
-    "ngrok": "^3.4.1",
+    "localtunnel": "^2.0.1",
     "node-cache": "^5.1.2",
     "node-fetch": "^2.6.1",
     "prism-media": "1.2.7",

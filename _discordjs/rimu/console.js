@@ -19,23 +19,10 @@ function cmd(client) {
         if (e === 'exit') {
             log(`Shutting down. Goodbye...`);
             require('../Rimu').client.destroy();
+            require('../Rimu').cloudflared.stdout.pause();
+            require('../Rimu').cloudflared.kill();
             process.exit();
         };
-
-        /**if (e === 'restart') {
-            log(`Resetting Rimu...`);
-            require('../Rimu').client.destroy();
-            setTimeout(function () {
-                process.on("exit", function () {
-                    require("child_process").spawn(process.argv.shift(), process.argv, {
-                        cwd: process.cwd(),
-                        detached: true,
-                        stdio: "inherit"
-                    });
-                });
-                process.exit();
-            }, 3000);
-        }**/
 
         if (e === 'uptime') log(`Uptime ${time_format(process.uptime())}`, 1);
 

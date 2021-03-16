@@ -6,9 +6,9 @@ function task(client) {
     redis.set('h_cpu', require('child_process').execSync(`ps up "${process.pid}" | tail -n1 | tr -s ' ' | cut -f3 -d' '`));
     redis.set('d_guild', client.guilds.cache.size);
     redis.set('d_user', client.users.cache.size);
-  }, 5000);
+  }, 1000);
 
-  client.setInterval(() => require('../etc/utils').log(`Sweeped ${client.sweepMessages(3600)} messages`), 3600000);
+  client.setInterval(() => require('../etc/utils').log(`Sweeped ${client.sweepMessages(900)} messages`), 900 * 1000);
 
   /*client.setInterval(() => {
     presence(client, `Current commit: #${require('../Rimu').revision}`);

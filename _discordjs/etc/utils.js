@@ -46,14 +46,16 @@ module.exports.shuffleArray = array => {
 
 module.exports.log = (string, _isConsole) => {
   let options = {
-    timeZone: 'Asia/Bangkok',
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric'
-  },
-      formatter = new Intl.DateTimeFormat([], options);
-  console.log(`[${_isConsole ? 'Console' : 'Discord'} - ${formatter.format(new Date())}] ${string}`);
+      timeZone: 'Asia/Bangkok',
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric'
+    },
+    formatter = new Intl.DateTimeFormat([], options);
+  const msg = `[${_isConsole ? 'Console' : 'Discord'} - ${formatter.format(new Date())}] ${string}`;
+
+  console.log(msg);
 };
