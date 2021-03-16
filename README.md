@@ -1,8 +1,11 @@
-# acay-s-bot
+# rimu
 
-A discord bot written in Javascript
+another discord bot
+- share emotes, with attachments support
+- music stream (youtube, bandcamp, soundcloud)
+- reddit fetch
 
-### Features
-- Share emojis
-- Play music from Youtube (tba Soundcloud)
-- Search image from subreddit
+### tba
+- music queue
+- imgflip generator
+- dynu dns to cover up ngrok local web server

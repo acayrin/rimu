@@ -32,6 +32,8 @@ client.once('ready', () => {
   require('./rimu/task').task(client);
 
   require('./rimu/console').cmd(client);
+
+  require('./web').startWebServer();
 });
 client.on('message', message => {
   require('./emotes/main').gproc(message);
