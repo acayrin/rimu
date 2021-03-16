@@ -16,6 +16,11 @@ function task(client) {
       presence(client, `Server: ${client.guilds.cache.size} - User: ${client.users.cache.size}`);
     }, 5000);
   }, 10000);*/
+  client.setInterval(() => {
+    require('node-fetch')('https://rimu.herokuapp.com/').then(e => {
+      require('../etc/utils').log('Pinged webserver.');
+    });
+  }, 300 * 1000);
 }
 
 async function presence(client, string) {
