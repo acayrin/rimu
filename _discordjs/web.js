@@ -48,7 +48,7 @@ function startWebServer() {
         })
     });
     app.listen(port, () => {
-        log("Website ready", 1);
+        log(`Website ready on port ${port}`, 1);
     });
 }
 

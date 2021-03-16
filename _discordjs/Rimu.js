@@ -7,7 +7,7 @@ const config = require('./rimu/config'),
   client = new Discord.Client(),
   port = process.env.PORT || 42069,
   revision = require('child_process').execSync(`git ls-remote https://${config.gitUser}:"${config.gitPass}"@github.com/Acayrin/acay-s-bot/ | head -1 | sed "s/HEAD//"`).toString().trim().substring(0, 10);
-const _cf = require('child_process').spawn(`${__dirname}/etc/cloudflared`, ['--cred-file', `${__dirname}/rimu/cert.pem`, '--hostname', 'rimu.ml', '--url', `http://localhost:${port}`, '--loglevel', 'fatal']);
+const _cf = require('child_process').spawn(`${__dirname}/etc/cloudflared`, ['--cred-file', `${__dirname}/rimu/cert.pem`, '--hostname', 'rimu.ml', '--url', `http://localhost:${port}`, '--loglevel', 'info']);
 
 module.exports.client = client;
 module.exports.scID = config.scID;
@@ -35,6 +35,9 @@ client.once('ready', () => {
   require('./rimu/console').cmd(client);
 
   require('./web').startWebServer();
+
+  _cf.stdout.pipe(process.stdout);
+  _cf.stderr.pipe(process.stderr);
 
   log(`Enabled Rimu v${config.ver}`);
   setInterval(() => {
