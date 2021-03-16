@@ -28,6 +28,7 @@
     "ioredis": "^4.23.0",
     "json5": "^2.2.0",
     "linez": "^4.1.4",
+    "ngrok": "^3.4.1",
     "node-cache": "^5.1.2",
     "node-fetch": "^2.6.1",
     "prism-media": "1.2.7",
