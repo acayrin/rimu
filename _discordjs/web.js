@@ -5,6 +5,11 @@ const Redis = require("ioredis");
 const reID = "redis://redistogo:3836450ed78400a4656586f169cf2765@scat.redistogo.com:11383/";
 const port = process.env.PORT || 3000;
 const redis = new Redis(reID);
+const publicIp = require('public-ip');
+(async () => {
+    console.log(await publicIp.v4() + ":" + process.env.PORT);
+    //=> '46.5.21.123'
+})();
 app.use(express.static(__dirname + "/web"));
 app.get("/port", (req, res) => {
     res.send(`<html>${port}</html>`)

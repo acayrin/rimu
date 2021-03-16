@@ -5,7 +5,6 @@ const {
 const config = require('./rimu/config');
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const publicIp = require('public-ip');
 
 const revision = require('child_process').execSync(`git ls-remote https://${config.gitUser}:"${config.gitPass}"@github.com/Acayrin/acay-s-bot/ | head -1 | sed "s/HEAD//"`).toString().trim().substring(0, 10);
 
@@ -33,10 +32,6 @@ client.once('ready', () => {
   require('./rimu/task').task(client);
 
   require('./rimu/console').cmd(client);
-  (async () => {
-    console.log(await publicIp.v4() + ":" + process.env.PORT);
-    //=> '46.5.21.123'
-  })();
 });
 client.on('message', message => {
   require('./emotes/main').gproc(message);
