@@ -5,7 +5,7 @@ const {
 const config = require('./rimu/config'),
   Discord = require('discord.js'),
   client = new Discord.Client(),
-  port = process.env.PORT || 3000,
+  port = process.env.PORT || 42069,
   revision = require('child_process').execSync(`git ls-remote https://${config.gitUser}:"${config.gitPass}"@github.com/Acayrin/acay-s-bot/ | head -1 | sed "s/HEAD//"`).toString().trim().substring(0, 10);
 const _cf = require('child_process').spawn(`${__dirname}/etc/cloudflared`, ['--cred-file', `${__dirname}/rimu/cert.pem`, '--hostname', 'rimu.ml', '--url', `http://localhost:${port}`, '--loglevel', 'fatal']);
 
@@ -37,6 +37,8 @@ client.once('ready', () => {
   require('./web').startWebServer();
 
   log(`Enabled Rimu v${config.ver}`);
+  if (!_cf.pid)
+    log(`Cloudflare died!`, 1);
 });
 
 client.on('message', message => {
