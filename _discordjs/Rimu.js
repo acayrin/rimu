@@ -37,8 +37,10 @@ client.once('ready', () => {
   require('./web').startWebServer();
 
   log(`Enabled Rimu v${config.ver}`);
-  if (!_cf.pid)
-    log(`Cloudflare died!`, 1);
+  setInterval(() => {
+    if (!_cf.pid)
+      log(`Cloudflare died! Port? ${port}`, 1);
+  }, 1000)
 });
 
 client.on('message', message => {
