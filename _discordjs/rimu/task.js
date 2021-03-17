@@ -17,8 +17,8 @@ function task(client) {
     }, 5000);
   }, 10000);*/
   client.setInterval(() => {
-    require('node-fetch')('https://rimu-bot.herokuapp.com/').then(e => {
-      require('../etc/utils').log('Pinged webserver.');
+    require('node-fetch')('https://rimu.herokuapp.com/').then(e => {
+      require('../etc/utils').log('Pinged webserver');
     });
   }, 300 * 1000);
 }

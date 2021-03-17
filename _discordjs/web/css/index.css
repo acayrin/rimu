@@ -1,0 +1,79 @@
+*::-webkit-scrollbar {
+    display: none;
+}
+
+* {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    transition: all 0.5s ease;
+}
+
+.huh {
+    cursor: pointer;
+}
+
+body {
+    background: linear-gradient(45deg, rgba(171, 86, 255, 1) 0%, rgba(152, 46, 255, 1) 33%, rgba(51, 122, 255, 1) 66%, rgba(62, 212, 201, 1) 100%);
+    height: 300%;
+    animation: a_body 4s ease-in-out infinite;
+    background-size: 100% 300%;
+}
+
+.soot {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: black;
+    filter: opacity(0.8);
+}
+
+.woot {
+    color: rgb(186, 186, 186);
+    text-align: center;
+    text-decoration: none;
+    font-size: 24px;
+    font-family: monospace;
+    letter-spacing: 5px;
+    height: 300px;
+    width: 500px;
+    position: fixed;
+    top: calc(50% - 150px);
+    left: calc(50% - 250px);
+    z-index: 69420;
+    align-items: center;
+}
+
+.rainbow {
+    background: linear-gradient(to right, #6666ff, #0099ff, #00ff00, #ff3399, #6666ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: rainbow_animation 12s ease-in-out infinite;
+    background-size: 400% 100%;
+}
+
+@keyframes rainbow_animation {
+
+    0%,
+    100% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 100% 0;
+    }
+}
+
+@keyframes a_body {
+
+    0%,
+    100% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 0 100%;
+    }
+}
