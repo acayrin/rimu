@@ -1,16 +1,15 @@
 const Main = require('../Rimu'),
-  Media = require('../media/music/search'),
-  Genius = require('../media/genius/main'),
-  Reddit = require('../media/reddit/main'),
-  Discord = require('discord.js'),
-  Queue = require('../media/music/queue'),
-  Soundpack = require('../media/soundpack/main');
+      Media = require('../media/music/search'),
+      Genius = require('../media/genius/main'),
+      Reddit = require('../media/reddit/main'),
+      Discord = require('discord.js'),
+      Queue = require('../media/music/queue'),
+      Soundpack = require('../media/soundpack/main');
 
 const prefix = "=";
 
 module.exports.cproc = async message => {
   const serverQueue = Queue.getQueue(message.guild.id);
-
   if (!message.content.startsWith(prefix) || message.author.bot) return;
   const check = message.content.slice(prefix.length).trim();
   const command = check.split(" ").shift().toLowerCase();

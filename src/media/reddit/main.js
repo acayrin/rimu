@@ -2,8 +2,8 @@ const {
   log
 } = require('../../etc/utils');
 
-const nf = require( 'node-fetch' ),
-      discord = require( 'discord.js' );
+const nf = require('node-fetch'),
+      discord = require('discord.js');
 
 function fetch(message, subreddit) {
   const list = ['memes', 'dankmemes', 'funny', 'wholesomememes'];

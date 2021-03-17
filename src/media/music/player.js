@@ -2,8 +2,8 @@ const Youtube = require('ytdl-core'),
       Bandcamp = require('bandcamp-fetch'),
       Prism = require('./stream'),
       Soundcloud = require('soundcloud-downloader').create({
-        clientID: require('../../Rimu').scID
-      });
+  clientID: require('../../Rimu').scID
+});
 
 async function play(platform, track, voiceChannel, textChannel) {
   if (!voiceChannel) textChannel.send('Please join a voice channel first');
@@ -23,7 +23,7 @@ async function play(platform, track, voiceChannel, textChannel) {
         thumbnail = track.thumbnail,
         duration = track.duration;
 
-  const _txt = await textChannel.send( `> Playing **${title}**\n> ${artist !== '?' ? 'by **' + artist + '**' : 'from **' + url + '**'} [${!duration ? 'Livestream' : duration}]` );
+  const _txt = await textChannel.send(`> Playing **${title}**\n> ${artist !== '?' ? 'by **' + artist + '**' : 'from **' + url + '**'} [${!duration ? 'Livestream' : duration}]`);
 
   let stream;
 
