@@ -19,8 +19,6 @@ function cmd(client) {
         if (e === 'exit') {
             log(`Shutting down. Goodbye...`);
             require('../Rimu').client.destroy();
-            require('../Rimu').cloudflared.stdout.pause();
-            require('../Rimu').cloudflared.kill();
             process.exit();
         };
 

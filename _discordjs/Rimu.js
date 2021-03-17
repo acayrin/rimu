@@ -7,7 +7,6 @@ const config = require('./rimu/config'),
   client = new Discord.Client(),
   port = process.env.PORT || 42069,
   revision = require('child_process').execSync(`git ls-remote https://${config.gitUser}:"${config.gitPass}"@github.com/Acayrin/acay-s-bot/ | head -1 | sed "s/HEAD//"`).toString().trim().substring(0, 10);
-const _cf = require('child_process').spawn(`${__dirname}/etc/cloudflared`, ['--cred-file', `${__dirname}/rimu/cert.pem`, '--hostname', 'rimu.ml', '--url', `http://localhost:${port}`, '--loglevel', 'info']);
 
 module.exports.client = client;
 module.exports.scID = config.scID;
@@ -15,7 +14,6 @@ module.exports.gnID = config.gnID;
 module.exports.reID = config.reID;
 module.exports.ver = config.ver;
 module.exports.revision = revision;
-module.exports.cloudflared = _cf;
 module.exports.port = port;
 
 require('./rimu/preinstall').run();
@@ -36,18 +34,7 @@ client.once('ready', () => {
 
   require('./web').startWebServer();
 
-  _cf.stdout.on('data', (e) => {
-    log(e.toString(), 1);
-  });
-  _cf.stderr.on('data', (e) => {
-    log(e.toString(), 1);
-  });
-
   log(`Enabled Rimu v${config.ver}`);
-  setInterval(() => {
-    if (!_cf.pid)
-      log(`Cloudflare died! Port? ${port}`, 1);
-  }, 1000)
 });
 
 client.on('message', message => {
@@ -58,8 +45,6 @@ client.on('message', message => {
 // kill on SIGTERM
 process.on('SIGTERM', () => {
   log(`Shutting down. Goodbye...`);
-  _cf.stdout.pause();
-  _cf.kill();
   client.destroy();
   process.exit();
 });

@@ -1,6 +1,6 @@
 {
   "name": "rimu",
-  "version": "1.1.4",
+  "version": "1.1.4a",
   "description": "A multi-purpose discord bot",
   "engines": {
     "node": "14.x",
