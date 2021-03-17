@@ -1,1 +1,1 @@
-web: npm run dsjs
+web: npm start

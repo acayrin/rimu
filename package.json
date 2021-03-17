@@ -1,6 +1,6 @@
 {
   "name": "rimu",
-  "version": "1.1.4a",
+  "version": "1.1.5",
   "description": "A multi-purpose discord bot",
   "engines": {
     "node": "14.x",
@@ -45,9 +45,8 @@
   },
   "scripts": {
     "firstrun": "npm clean-install",
-    "web": "node --trace-warnings _discordjs/web",
-    "eris": "node --trace-warnings _eris/Rimu",
-    "dsjs": "node --trace-warnings _discordjs/Rimu"
+    "web": "node --trace-warnings src/web",
+    "start": "node --trace-warnings src/Rimu"
   },
   "keywords": [
     "acay",
