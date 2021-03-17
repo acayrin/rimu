@@ -20,12 +20,7 @@ function startWebServer() {
             next();
     });
     //app.use(express.static(__dirname + "/web"));
-    app.get("/", (req, res) => {
-        const _index = fs.readFileSync(__dirname + '/web/index.html', {
-            encoding: "utf8"
-        });
-        res.send(_index.replace(/%%port%%/g, port));
-    });
+    app.use(express.static(`${__dirname}/web`))
     app.get("/port", (req, res) => {
         res.send(`<html>${port}</html>`)
     });

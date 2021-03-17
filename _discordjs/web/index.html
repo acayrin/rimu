@@ -2,7 +2,7 @@
 
 <head>
     <title>rimu</title>
-    
+
     <meta charset="UTF-8">
     <meta name="description" content="krab">
     <meta name="keywords" content="krab">
@@ -12,13 +12,13 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
     <script type='text/javascript'>
         setInterval(function () {
-            $.get('http://localhost:%%port%%/h_cpu', function (e) {
+            $.get('/h_cpu', function (e) {
                 $('#h_cpu').text(Math.round(e)).text();
             })
-            $.get('http://localhost:%%port%%/d_guild', function (e) {
+            $.get('/d_guild', function (e) {
                 $('#d_guild').text(e).text();
             })
-            $.get('http://localhost:%%port%%/d_user', function (e) {
+            $.get('/d_user', function (e) {
                 $('#d_user').text(e).text();
             })
         }, 1000)

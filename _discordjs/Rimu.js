@@ -36,8 +36,12 @@ client.once('ready', () => {
 
   require('./web').startWebServer();
 
-  _cf.stdout.pipe(process.stdout);
-  _cf.stderr.pipe(process.stderr);
+  _cf.stdout.on('data', (e) => {
+    log(e.toString(), 1);
+  });
+  _cf.stderr.on('data', (e) => {
+    log(e.toString(), 1);
+  });
 
   log(`Enabled Rimu v${config.ver}`);
   setInterval(() => {
