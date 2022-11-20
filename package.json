@@ -9,7 +9,7 @@
   "dependencies": {
     "@discordjs/opus": "^0.4.0",
     "ajv": "^4.11.8",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "bandcamp-fetch": "0.1.0-a-20210216",
     "bandcamp-scraper": "^1.4.1",
     "bottleneck": "^2.19.5",
